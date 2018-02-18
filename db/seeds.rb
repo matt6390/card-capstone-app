@@ -1,0 +1,4 @@
+Card.create({name: "Blue-Eyes White Dragon", description: "This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.", element: "Light", race: "Dragon", rarity: "R"})
+
+Card.create({name: "Dark Magician", description: "The ultimate wizard in terms of attack and defense.", element: "Dark", race: "Spellcaster", rarity: "R"})
+Card.create({name: "Kuriboh", description: "During your opponent's turn, at damage calculation: You can discard this card; you take no battle damage from that battle (this is a Quick Effect).", element: "Dark", race: "Fiend", rarity: "C"})
