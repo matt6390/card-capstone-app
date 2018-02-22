@@ -1,0 +1,1 @@
+json.array! @user_cards, partial: "user_card", as: :user_card
