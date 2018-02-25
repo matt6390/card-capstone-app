@@ -21,4 +21,10 @@ class UserCardsController < ApplicationController
     end
   end
 
+  def destroy
+    @user_card = UserCard.find_by(card_id: params[:id])
+    @user_card.destroy
+    render json: {message: "Card successfully destroyed"}
+  end
+
 end

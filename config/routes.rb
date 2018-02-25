@@ -8,9 +8,16 @@ Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
   post "/user_token" => 'user_token#create'
   post "/users" => 'users#create'
-  delete "/users" => 'users#destroy'
+  delete "/users/:id" => 'users#destroy'
 
   get '/user_cards' => 'user_cards#index'
   post '/user_cards' => 'user_cards#create'
+  delete '/user_cards/:id' => 'user_cards#destroy'
+
+  post '/prices' => 'prices#create'
+
+  get '/comments' => 'comments#index'
+  get '/comments/:id' => 'comments#show'
+  post '/comments' => 'comments#create'
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222000232) do
+ActiveRecord::Schema.define(version: 20180225025904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,25 @@ ActiveRecord::Schema.define(version: 20180222000232) do
     t.string "rarity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer "commentable_id"
+    t.integer "user_id"
+    t.integer "commentable_type"
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "prices", force: :cascade do |t|
+    t.integer "card_id"
+    t.string "style"
+    t.string "condition"
+    t.string "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "value", precision: 9, scale: 2
   end
 
   create_table "user_cards", force: :cascade do |t|
