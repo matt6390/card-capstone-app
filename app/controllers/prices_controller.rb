@@ -1,4 +1,15 @@
 class PricesController < ApplicationController
+  def index
+    @prices = Price.all
+    search_term = params[:search]
+
+    if search_term
+      @prices = @prices.where("card_id = ?", params[:search])
+    end
+    
+    render json: @prices.as_json   
+  end
+
   def create
     @price = Price.new(
                         card_id: params[:card_id],
