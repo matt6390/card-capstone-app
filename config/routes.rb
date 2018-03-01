@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   delete "/users/:id" => 'users#destroy'
 
   get '/user_cards' => 'user_cards#index'
+  get '/user_cards/:id' => 'user_cards#show'
   post '/user_cards' => 'user_cards#create'
+  patch '/user_cards' => 'user_cards#update'
   delete '/user_cards/:id' => 'user_cards#destroy'
 
   get '/prices' => 'prices#index'

@@ -6,6 +6,12 @@ class UserCardsController < ApplicationController
     render json: @user_cards.as_json
   end
 
+  def show
+    @user_card = UserCard.where(card_id: params[:id])
+
+    render json: @user_card.as_json
+  end
+
   def create
     @user_card = UserCard.new(
                               user_id: current_user.id,
@@ -19,6 +25,11 @@ class UserCardsController < ApplicationController
     else
       render json: {errors: @user_cards.errors.full_messages}, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @user_card = UserCard.find(params[:id])
+    
   end
 
   def destroy
