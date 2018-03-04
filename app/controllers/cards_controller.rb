@@ -1,12 +1,23 @@
 class CardsController < ApplicationController
   def index
     @cards = Card.all
-    render json: @cards.as_json
+    search_term = params[:search]
+
+    if search_term
+      @cards = @cards.where("name iLike ?", "%#{search_term}%")
+    end
+
+    sort_attribute = params[:sort]
+    if sort_attribute
+      @cards = @cards.order(sort_attribute => :asc)
+    end
+
+    render 'index.json.jbuilder'  
   end
 
   def show
     @card = Card.find(params[:id])
-    render json: @card.as_json
+    render 'show.json.jbuilder'
   end
 
   def create
@@ -18,7 +29,7 @@ class CardsController < ApplicationController
                     rarity: params[:rarity]
                    )
     if @card.save
-     render json: @card.as_json
+     render 'show.json.jbuilder'
     else
       render json: {errors: @card.errors.full_messages}, status: :unprocessable_entity
     end
@@ -34,7 +45,7 @@ class CardsController < ApplicationController
     @card.rarity = params[:rarity] || @card.rarity
 
     if @card.save
-     render json: @card.as_json
+     render 'show.json.jbuilder'
     else
       render json: {errors: @card.errors.full_messages}, status: :unprocessable_entity
     end

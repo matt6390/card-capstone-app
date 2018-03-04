@@ -1,15 +1,15 @@
 class UserCardsController < ApplicationController
 
   def index
-    @user_cards = current_user.cards
+    @user_cards = current_user.user_cards
 
-    render json: @user_cards.as_json
+    render 'index.json.jbuilder'
   end
 
   def show
     @user_card = UserCard.where(card_id: params[:id])
 
-    render json: @user_card.as_json
+    render 'show.json.jbuilder'
   end
 
   def create
@@ -29,7 +29,7 @@ class UserCardsController < ApplicationController
 
   def update
     @user_card = UserCard.find(params[:id])
-    
+    render 'show.json.jbuilder'
   end
 
   def destroy
