@@ -1,14 +1,20 @@
 class CommentsController < ApplicationController
   def index
     @comments = Comment.all
+    search_term = params[:search]
 
-    render json: @comments.as_json
+    if search_term
+      @comments = @comments.where("commentable_id = ?", "#{search_term}")
+    end
+
+
+    render 'index.json.jbuilder'
   end
 
   def show
-    @comments = Comment.where(commentable_id: params[:id])
+    @comment = Comment.where(commentable_id: params[:id])
 
-    render json: @comments.as_json
+    render 'show.json.jbuilder'
   end
 
   def create
@@ -19,7 +25,7 @@ class CommentsController < ApplicationController
                             text: params[:text]
                           )
     if @comment.save
-     render json: @comment.as_json
+     render 'show.json.jbuilder'
     else
       render json: {errors: @comment.errors.full_messages}, status: :unprocessable_entity
     end
