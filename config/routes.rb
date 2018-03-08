@@ -26,4 +26,16 @@ Rails.application.routes.draw do
   get '/comments/:id' => 'comments#show'
   post '/comments' => 'comments#create'
 
+  get '/decks' => 'decks#index'
+  get '/decks/:id' => 'decks#show'
+  post '/decks' => 'decks#create'
+  patch '/decks/:id' => 'decks#update'
+
+  get '/deck_cards' => 'deck_cards#index'
+  get '/deck_cards/:id' => 'deck_cards#show'
+  post '/deck_cards' => 'deck_cards#create'
+  patch '/deck_cards/:id' => 'deck_cards#update'
+  delete '/deck_cards/:id' => 'deck_cards#destroy'
+
+
 end

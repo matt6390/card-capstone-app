@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :cards, through: :user_cards
 
   has_many :comments
+  has_many :decks
 end
