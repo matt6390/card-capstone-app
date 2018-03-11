@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   get '/decks/:id' => 'decks#show'
   post '/decks' => 'decks#create'
   patch '/decks/:id' => 'decks#update'
+  delete 'decks/:id' => 'decks#destroy'
 
   get '/deck_cards' => 'deck_cards#index'
   get '/deck_cards/:id' => 'deck_cards#show'

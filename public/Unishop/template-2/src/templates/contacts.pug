@@ -1,0 +1,113 @@
+extends partials/layout
+
+//- Override default config variables
+append config
+  - var pageTitle = 'Contacts'
+  - var parentMenu = 'Pages'
+  - var menuTitle = 'Contacts'
+  - var isGoogleMap = true
+  - var breadcrumbs = [{'title': 'Home', 'link': 'index.html'}, {'title': 'Contacts'}]
+
+//- Page Content
+block content
+  .container.padding-bottom-2x.mb-2
+    .row
+      .col-md-7
+        .display-3.text-muted.opacity-75.mb-30 Customer Service
+      .col-md-5
+        ul.list-icon
+          li 
+            i.material-icons.mail_outline.text-muted
+            a(href='mailto:customer.service@unishop.com').navi-link customer.service@unishop.com
+          li 
+            i.material-icons.phone.text-muted
+            | +1 (080) 44 357 260
+          li 
+            i.material-icons.access_time.text-muted
+            | 1 - 2 business days
+    hr.margin-top-2x
+    .row.margin-top-2x
+      .col-md-7
+        .display-3.text-muted.opacity-75.mb-30 Tech Support
+      .col-md-5
+        ul.list-icon
+          li 
+            i.material-icons.mail_outline.text-muted
+            a(href='mailto:support@unishop.com').navi-link support@unishop.com
+          li 
+            i.material-icons.phone.text-muted
+            | 00 33 169 7720
+          li 
+            i.material-icons.access_time.text-muted
+            | 1 - 2 business days
+    h2.margin-top-3x.text-center.mb-30 Outlet Stores
+    .row
+      .col-md-4.col-sm-6
+        .card.border-default.mb-30
+          .google-map(
+            data-height = '250',
+            data-address = '514 S. Magnolia St. Orlando, FL 32806, USA',
+            data-zoom = '15',
+            data-disable-controls = 'true',
+            data-scrollwheel = 'false',
+            data-marker = 'img/map-marker.png',
+            data-marker-title = 'We are here!',
+            data-styles = '[{"featureType":"all","elementType":"labels","stylers":[{"hue":"#0074ff"},{"visibility":"on"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"hue":"#0074ff"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#6195a0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#e6f3d6"},{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#f4d2c5"},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"color":"#4e4e4e"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#f4f4f4"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#787878"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#eaf6f8"},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#eaf6f8"}]}]'
+          )
+          .card-body.bg-dark
+            ul.list-icon.text-sm.text-white
+              li 
+                i.material-icons.place.text-muted
+                | 514 S. Magnolia St. Orlando, FL 32806, USA
+              li 
+                i.material-icons.phone.text-muted
+                | +1(786) 322 560 40
+              li 
+                i.material-icons.mail_outline.text-muted
+                a(href='mailto:orlando.store@unishop.com').navi-link-light orlando.store@unishop.com
+      .col-md-4.col-sm-6
+        .card.border-default.mb-30
+          .google-map(
+            data-height = '250',
+            data-address = '44 Shirley Ave. West Chicago, IL 60185, USA',
+            data-zoom = '15',
+            data-disable-controls = 'true',
+            data-scrollwheel = 'false',
+            data-marker = 'img/map-marker.png',
+            data-marker-title = 'We are here!',
+            data-styles = '[{"featureType":"all","elementType":"labels","stylers":[{"hue":"#0074ff"},{"visibility":"on"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"hue":"#0074ff"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#6195a0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#e6f3d6"},{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#f4d2c5"},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"color":"#4e4e4e"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#f4f4f4"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#787878"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#eaf6f8"},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#eaf6f8"}]}]'
+          )
+          .card-body.bg-dark
+            ul.list-icon.text-sm.text-white
+              li 
+                i.material-icons.place.text-muted
+                | 44 Shirley Ave. West Chicago, IL 60185, USA
+              li 
+                i.material-icons.phone.text-muted
+                | +1(847) 252 765 33
+              li 
+                i.material-icons.mail_outline.text-muted
+                a(href='mailto:chicago.store@unishop.comm').navi-link-light chicago.store@unishop.com
+      .col-md-4.col-sm-6
+        .card.border-default.mb-30
+          .google-map(
+            data-height = '250',
+            data-address = '89 Clinton Dr. Holbrook, NY 11741, USA',
+            data-zoom = '13',
+            data-disable-controls = 'true',
+            data-scrollwheel = 'false',
+            data-marker = 'img/map-marker.png',
+            data-marker-title = 'We are here!',
+            data-styles = '[{"featureType":"all","elementType":"labels","stylers":[{"hue":"#0074ff"},{"visibility":"on"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"hue":"#0074ff"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#6195a0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#e6f3d6"},{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#f4d2c5"},{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"color":"#4e4e4e"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#f4f4f4"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#787878"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#eaf6f8"},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#eaf6f8"}]}]'
+          )
+          .card-body.bg-dark
+            ul.list-icon.text-sm.text-white
+              li 
+                i.material-icons.place.text-muted
+                | 89 Clinton Dr. Holbrook, NY 11741, USA
+              li 
+                i.material-icons.phone.text-muted
+                | +1(212) 477 690 000
+              li 
+                i.material-icons.mail_outline.text-muted
+                a(href='mailto:newyork.store@unishop.com').navi-link-light newyork.store@unishop.com
