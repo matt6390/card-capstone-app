@@ -5,6 +5,7 @@ json.element card.element
 json.race card.race
 json.rarity card.rarity
 
+json.prices card.prices
 json.average_price card.average_price
 
 json.created_at card.friendly_created_at
@@ -14,4 +15,9 @@ json.user_card card.user_cards[0]
 
 json.user card.users[0]
 
+
 json.decks card.decks
+
+
+
+

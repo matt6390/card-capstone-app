@@ -17,6 +17,6 @@ class Card < ApplicationRecord
   end
 
   def average_price
-    prices.average(:value)
+    prices.average(:value).to_i
   end
 end
