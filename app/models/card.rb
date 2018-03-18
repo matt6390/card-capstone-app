@@ -1,4 +1,10 @@
 class Card < ApplicationRecord
+  # validates :name, length: { minimum: 1 }
+  # validates :description, length: { minimum: 1 }
+  # validates :attribute, length: { minimum: 1 }
+  # validates :race, length: { minimum: 1 }
+  # validates :rarity, length: { minimum: 1 }
+
   has_many :user_cards
   has_many :users, through: :user_cards
 
