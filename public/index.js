@@ -33,7 +33,6 @@ var MyCardShowPage = {
   data: function() {
     return {
       card: [],
-      image: "",
       message: "Page is being displayed"
     };
   },
@@ -43,10 +42,10 @@ var MyCardShowPage = {
         this.card = response.data;
       }.bind(this)
     );
-    axios.get("http://yugiohprices.com/api/card_image/blue-eyes white dragon").then(
-      function(response){
-        this.image = response;
-      }.bind(this));
+    // axios.get("http://yugiohprices.com/api/card_image/blue-eyes white dragon").then(
+    //   function(response){
+    //     this.image = response;
+    //   }.bind(this));
   },
   methods: {},
   computed: {}
@@ -170,6 +169,18 @@ var MyCardEditPage = {
   computed: {}
 };
 
+var MyCardDestroyPage = {
+  template: "#my-card-destroy-page",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!"
+    };
+  },
+  created: function() {},
+  methods: {},
+  computed: {}
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -250,6 +261,7 @@ var router = new VueRouter({
             { path: '/user_cards/:id', component: MyCardShowPage },
             { path: '/cards', component: MyCardCreatePage },
             { path: '/user_cards/:id/edit', component: MyCardEditPage },
+            { path: '/user_cards/:id/delete', component: MyCardDestroyPage },
             { path: "/logout", component: LogoutPage },
             { path: '/login', component: LoginPage },
             { path: '/signup', component: SignupPage }
