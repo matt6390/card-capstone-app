@@ -20,10 +20,15 @@ class UserCardsController < ApplicationController
                               style: params[:style],
                               print_tag: params[:print_tag]
                               )
+    p @user_card.user_id
+    p @user_card.card_id
+    p @user_card.condition
+    p @user_card.print_tag
+
     if @user_card.save
       render 'show.json.jbuilder'
     else
-      render json: {errors: @user_cards.errors.full_messages}, status: :unprocessable_entity
+      render json: {errors: @user_card.errors.full_messages}, status: :unprocessable_entity
     end
   end
 

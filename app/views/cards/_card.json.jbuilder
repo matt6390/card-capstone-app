@@ -15,7 +15,6 @@ json.user_card card.user_cards[0]
 
 json.user card.users[0]
 
-
 json.decks card.decks
 
 

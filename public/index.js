@@ -2,10 +2,48 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!"
+      message: "Welcome to the card collector!"
     };
   },
   created: function() {},
+  methods: {},
+  computed: {}
+};
+
+var CommunityCardsPage = {
+  template: "#community-cards-page",
+  data: function() {
+    return {
+      message: "Running",
+      cards: []
+    };
+  },
+  created: function() {
+    axios.get("/cards").then(
+      function(response) {
+        this.cards = response.data;
+      }.bind(this)
+    );
+  },
+  methods: {},
+  computed: {}
+};
+
+var CommunityShowPage = {
+  template: "#community-show-page",
+  data: function() {
+    return {
+      card: [],
+      message: "Page is being displayed"
+    };
+  },
+  created: function() {
+    axios.get("/cards/" + this.$route.params.id).then(
+      function(response) {
+        this.card = response.data;
+      }.bind(this)
+    );
+  },
   methods: {},
   computed: {}
 };
@@ -55,17 +93,13 @@ var MyCardCreatePage = {
   template: "#my-card-create-page",
   data: function() {
     return {
+      errors: {},
       card: {},
       name: "",
       description: "",
       element: "",
       race: "",
-      card: {},
-      errors: {},
-      rarity: "",
-      condition: "",
-      printTag: "",
-      message: "Welcome to Vue.js!"
+      rarity: ""
     };
   },
   created: function() {},
@@ -81,38 +115,58 @@ var MyCardCreatePage = {
       axios
         .post("/cards", params)
         .then(function(response) {
-          // console.log(response.data)
-          var card = response.data;
-          router.push("/user_cards");
+          this.card = response.data;
+          // console.log(this.card.id);
+          router.push("/user_cards/" + this.card.id + "/create");
         })
         .catch(
           function(error) {
-            this.errors = error.response.data.errors;
-            router.push("/login");
+            if(error) {
+              // console.log(error);
+              this.errors = error.response.data.errors;
+              router.push("/cards");
+            } 
           }.bind(this)
         );
-      console.log("made the card")
-    
-      var params1 = {
-        condition: this.condition,
-        print_tag: this.printTag,
-        card_id: this.card.id
-      };
-      // console.log(card)
-      // console.log(params1);
+    }
 
+  },
+  computed: {}
+};
+
+var MyUserCardCreatePage = {
+  template: "#my-user-card-create-page",
+  data: function() {
+    return {
+      errors: {},
+      card: {},
+      cardId: this.$route.params.id,
+      condition: "",
+      printTag: ""
+    };
+  },
+  created: function() {},
+  methods: {
+    submit: function() {
+      var params = {
+        card_id: this.cardId,
+        condition: this.condition,
+        print_tag: this.printTag
+      };
       axios
-      .post("/user_cards", params1)
+        .post("/user_cards", params)
         .then(function(response) {
           router.push("/user_cards");
         })
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
-            router.push("/login");
+            router.push("/user_cards/" + this.$route.params.id + "/create");
           }.bind(this)
         );
+        // console.log(this.card);
     }
+
   },
   computed: {}
 };
@@ -257,9 +311,12 @@ var LogoutPage = {
 
 var router = new VueRouter({
   routes: [ { path: "/", component: HomePage },
+            { path: '/cards/all', component: CommunityCardsPage },
+            { path: '/cards', component: MyCardCreatePage },
+            { path: '/cards/:id', component: CommunityShowPage },
             { path: '/user_cards', component: MyCardsIndexPage },
             { path: '/user_cards/:id', component: MyCardShowPage },
-            { path: '/cards', component: MyCardCreatePage },
+            { path: '/user_cards/:id/create', component: MyUserCardCreatePage },
             { path: '/user_cards/:id/edit', component: MyCardEditPage },
             { path: '/user_cards/:id/delete', component: MyCardDestroyPage },
             { path: "/logout", component: LogoutPage },
