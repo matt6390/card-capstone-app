@@ -49,6 +49,11 @@ var CommunityShowPage = {
         this.prices = response.data.prices
       }.bind(this)
     );
+    // axios.get('http://yugiohprices.com/api/card_image/blue-eyes white dragon').then(
+    //   function(response) {
+    //     console.log(response);
+    //   }.bind(this)
+    // );
     // console.log(this.$route.params.id);
   },
   methods: {
@@ -282,11 +287,122 @@ var MyCardDestroyPage = {
   template: "#my-card-destroy-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!"
+      message: "Welcome to destroy page!"
+    };
+  },
+  created: function() {
+    axios
+      .delete('/user_cards/' + this.$route.params.id)
+      .then(
+        function(response) {
+          console.log("Card Deleted");
+        }.bind(this)
+      )
+      .catch(
+        function(errors) {
+          this.errors = error.response.data.errors;
+          router.push("/user_cards/" + this.$route.params.id);
+        }.bind(this))
+  },
+  methods: {},
+  computed: {}
+};
+
+var MyDecksIndexPage = {
+  template: "#my-decks-index-page",
+  data: function() {
+    return {
+      decks: [],
+      message: "Welcome to decks index page!"
+    };
+  },
+  created: function() {
+    axios.get("/decks/").then(
+      function(response) {
+        this.decks = response.data;
+      }.bind(this)
+    ).catch(
+        function(errors) {
+          this.errors = error.response.data.errors;
+          router.push("/dekcs/" + this.$route.params.id);
+        }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
+
+var MyDeckShowPage = {
+  template: "#my-deck-show-page",
+  data: function() {
+    return {
+      deck: [],
+      message: "Page is being displayed"
+    };
+  },
+  created: function() {
+    axios.get("/decks/" + this.$route.params.id).then(
+      function(response) {
+        this.deck = response.data;
+      }.bind(this)
+    );
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        
+      };
+      axios
+        .post("/prices", params)
+        .then(function(response) {
+          location.reload();
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/user_cards/" + this.$route.params.id);
+          }.bind(this)
+        );
+        // console.log(this.card);
+    }
+  },
+  computed: {}
+};
+
+var MyDeckCreatePage = {
+  template: "#my-deck-create-page",
+  data: function() {
+    return {
+      errors: {},
+      name: "",
+      info: "",
+      deck: {}
     };
   },
   created: function() {},
-  methods: {},
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        info: this.info
+      };
+      axios
+        .post("/decks", params)
+        .then(function(response) {
+          this.deck = response.data;
+          router.push("/decks");
+        })
+        .catch(
+          function(error) {
+            if(error) {
+              // console.log(error);
+              this.errors = error.response.data.errors;
+              router.push("/decks");
+            } 
+          }.bind(this)
+        );
+    }
+
+  },
   computed: {}
 };
 
@@ -374,6 +490,9 @@ var router = new VueRouter({
             { path: '/user_cards/:id/create', component: MyUserCardCreatePage },
             { path: '/user_cards/:id/edit', component: MyCardEditPage },
             { path: '/user_cards/:id/delete', component: MyCardDestroyPage },
+            { path: '/decks', component: MyDecksIndexPage },
+            { path: '/decks/:id', component: MyDeckShowPage },
+            { path: '/decks/create', component: MyDeckCreatePage },
             { path: "/logout", component: LogoutPage },
             { path: '/login', component: LoginPage },
             { path: '/signup', component: SignupPage }
