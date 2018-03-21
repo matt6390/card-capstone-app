@@ -399,6 +399,7 @@
   <div class="vue-component">
     <div class="container">
       <!-- <p>{{ card }}</p> -->
+      <!-- Card Information -->
       <div class="row">
         <div class="col-md-6">
           <div class="product-gallery">
@@ -406,22 +407,49 @@
           </div>
         </div>
         <div class="col-md-6">
-          <h1>{{ card['name'] }} (ID: {{ card['id'] }})</h1>
-          <p>Posted By: {{ card['user']['name'] }}</p>
-          <h6>{{ card['description']}}</h6>
-          <div class="row-margin-top-1x">
-            <div class="col-sm-4">
-              <label for="">Element:</label>
-              <p>{{ card['element']}}</p>
+          <div class="card">
+            <h1>{{ card['name'] }} (ID: {{ card['id'] }})</h1>
+            <p>Posted By: {{ card['user']['name'] }}</p>
+            <h6>{{ card['description']}}</h6>
+            <div class="row margin-top-1x">
+              <div class="col-sm-4">
+                <label for="">Element:</label>
+                <p>{{ card['element']}}</p>
+              </div>
+              <div class="col-sm-4">
+                <label for="">Type:</label>
+                <p>{{ card['race']}}</p>
+              </div>
+              <div class="col-sm-4">
+                <label for="">Average Price (Subject to change):</label>
+                <p>${{ card['average_price']}}</p>
+              </div>
             </div>
-            <div class="col-sm-4">
-              <label for="">Type:</label>
-              <p>{{ card['race']}}</p>
-            </div>
-            <div class="col-sm-4">
-              <label for="">Average Price (Subject to change):</label>
-              <p>${{ card['average_price']}}</p>
-            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card Price -->
+      <div class="row">
+        <div class="col-md-8">
+          <div class="list-group">
+            <a  v-for="price in prices" class="list-group-item flex-column align-items-start">
+              <!-- <p>{{card.prices}}</p> -->
+              <div class="d-flex w-100 justify-content-between">
+                <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
+              </div>
+              <p>I got my information on this price from "{{ price.source }}"</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <h5>Enter a new Price:</h5>
+            <ul>
+              <li class="text-danger" v-for="error in errors">{{ error }}</li>
+            </ul>
+            <input class="form-control form-control-lg" type="number" id="large-pill-input" placeholder="Enter price here..." v-model="value">
+            <input class="form-control form-control-lg" type="text" id="large-pill-input" placeholder="Enter Source Here..." v-model="source">
+            <a class="btn btn-primary" v-on:click="submit()" v-bind:href="'#/cards/' + this.$route.params.id">Add Price</a>
           </div>
         </div>
       </div>
@@ -471,7 +499,7 @@
               <h1>{{ card['card']['name'] }} (ID: {{ card['card']['id'] }})</h1>
               <!-- <p>Posted By: {{ card['card']['user']['name'] }}</p> -->
               <h6>{{ card['card']['description']}}</h6>
-              <div class="row-margin-top-1x">
+              <div class="row margin-top-1x">
                 <div class="col-sm-4">
                   <label for="">Element:</label>
                   <p>{{ card['card']['element']}}</p>
@@ -480,8 +508,36 @@
                   <label for="">Type:</label>
                   <p>{{ card['card']['race']}}</p>
                 </div>
+                <div class="col-sm-4">
+                  <label for="">Average Price (Subject to change):</label>
+                  <p>${{ card['card']['average_price']}}.00</p>
+                </div>
               </div>
             </div>
+        </div>
+        <!-- <p>{{ card.card.prices }}</p> -->
+        <div class="row">
+          <div class="col-md-8">
+            <div v-for="price in card.card.prices" class="list-group">
+              <a class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
+                </div>
+                <p>I got my information on this price from "{{ price.source }}"</p>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <h5>Enter a new Price:</h5>
+              <ul>
+                <li class="text-danger" v-for="error in errors">{{ error }}</li>
+              </ul>
+              <input class="form-control form-control-lg" type="number" id="large-pill-input" placeholder="Enter price here..." v-model="value">
+              <input class="form-control form-control-lg" type="text" id="large-pill-input" placeholder="Enter Source Here..." v-model="source">
+              <a class="btn btn-primary" v-on:click="submit()" v-bind:href="'#/user_cards/' + this.$route.params.id">Add Price</a>
+            </div>
+          </div>
         </div>
     </div>
   </div>

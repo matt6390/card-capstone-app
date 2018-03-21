@@ -5,7 +5,10 @@ json.element card.element
 json.race card.race
 json.rarity card.rarity
 
-json.prices card.prices
+json.prices do
+  json.array! card.prices, partial: 'prices/price', as: :price
+end
+
 json.average_price card.average_price
 
 json.created_at card.friendly_created_at

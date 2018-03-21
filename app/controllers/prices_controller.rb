@@ -7,7 +7,7 @@ class PricesController < ApplicationController
       @prices = @prices.where("card_id = ?", params[:search])
     end
     
-    render json: @prices.as_json   
+    render 'index.json.jbuilder' 
   end
 
   def create
@@ -19,7 +19,7 @@ class PricesController < ApplicationController
                         value: params[:value]
                       )
     if @price.save
-     render json: @price.as_json
+     render json: 'show.json.jbuilder'
     else
       render json: {errors: @price.errors.full_messages}, status: :unprocessable_entity
     end

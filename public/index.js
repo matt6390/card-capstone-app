@@ -34,6 +34,11 @@ var CommunityShowPage = {
   data: function() {
     return {
       card: [],
+      prices: [],
+      errors: {},
+      value: "",
+      source: "",
+      cardId: this.$route.params.id,
       message: "Page is being displayed"
     };
   },
@@ -41,10 +46,35 @@ var CommunityShowPage = {
     axios.get("/cards/" + this.$route.params.id).then(
       function(response) {
         this.card = response.data;
+        this.prices = response.data.prices
       }.bind(this)
     );
+    // console.log(this.$route.params.id);
   },
-  methods: {},
+  methods: {
+    submit: function() {
+      var params = {
+        card_id: this.cardId,
+        value: this.value,
+        source: this.source
+      };
+      axios
+        .post("/prices", params)
+        .then(function(response) {
+          // console.log(response.config.data);
+          location.reload();
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/cards/" + this.$route.params.id);
+          }.bind(this)
+        );
+
+
+        // console.log(this.card);
+    }
+  },
   computed: {}
 };
 
@@ -71,6 +101,11 @@ var MyCardShowPage = {
   data: function() {
     return {
       card: [],
+      price: [],
+      errors: {},
+      value: "",
+      source: "",
+      cardId: this.$route.params.id,
       message: "Page is being displayed"
     };
   },
@@ -85,7 +120,27 @@ var MyCardShowPage = {
     //     this.image = response;
     //   }.bind(this));
   },
-  methods: {},
+  methods: {
+    submit: function() {
+      var params = {
+        card_id: this.cardId,
+        value: this.value,
+        source: this.source
+      };
+      axios
+        .post("/prices", params)
+        .then(function(response) {
+          location.reload();
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/user_cards/" + this.$route.params.id);
+          }.bind(this)
+        );
+        // console.log(this.card);
+    }
+  },
   computed: {}
 };
 
@@ -288,7 +343,7 @@ var LoginPage = {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
-          router.push("/");
+          router.push("/user_cards");
         })
         .catch(
           function(error) {

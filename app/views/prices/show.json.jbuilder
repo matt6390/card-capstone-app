@@ -1,0 +1,1 @@
+json.partial! @price, partial: 'price', as: :price
