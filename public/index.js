@@ -406,6 +406,24 @@ var MyDeckCreatePage = {
   computed: {}
 };
 
+var DeckCardsChoicePage = {
+  template: "#deck-cards-choice-page",
+  data: function() {
+    return {
+      cards: []
+    };
+  },
+  created: function() {
+    axios.get("/user_cards").then(
+      function(response) {
+        this.cards = response.data;
+      }.bind(this)
+    );
+  },
+  methods: {},
+  computed: {}
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -484,6 +502,7 @@ var router = new VueRouter({
   routes: [ { path: "/", component: HomePage },
             { path: '/cards/all', component: CommunityCardsPage },
             { path: '/cards', component: MyCardCreatePage },
+            { path: '/user_cards/choice', component: DeckCardsChoicePage },
             { path: '/cards/:id', component: CommunityShowPage },
             { path: '/user_cards', component: MyCardsIndexPage },
             { path: '/user_cards/:id', component: MyCardShowPage },
