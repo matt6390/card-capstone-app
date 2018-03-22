@@ -26,7 +26,7 @@
   <body>
     <div id="vue-app">
       
-      <a href="/#/signup">Signup</a>
+     <!--  <a href="/#/signup">Signup</a>
       <a href="/#/login">Login</a>
       <a href="/#/logout">Logout</a>
       <a href="/#/cards/all">Community</a>
@@ -39,7 +39,7 @@
       <a href="/#/user_cards/:id/delete">Card Destroy Page</a>
       <a href="/#/decks">My Decks Index Page</a>
       <a href="/#/decks/create">My Decks Create Page</a>
-      <a href="/#/user_cards/:id/choice">Deck Cards Choice Page</a>
+      <a href="/#/user_cards/:id/choice">Deck Cards Choice Page</a> -->
 
       <header class="navbar navbar-sticky">
         <!-- Search-->
@@ -391,7 +391,7 @@
                 <li>Type:{{ card['race'] }}</li>
                 <li>Average Price (Subjective to change): ${{ card['average_price'] }}</li>
               </ul>
-              <a v-bind:href='"#/cards/" + card.id' class="btn btn-success">View Card</a>
+              <a v-bind:href='"#/cards/" + card.id' class="btn btn-primary">View Card</a>
           </div>
         </div>
       </div>
@@ -650,9 +650,7 @@
   <div class="vue-componenet">
     <div class="container">
       <div class="row">
-        <div class="row">
           <a href="/#/decks/create" class="btn btn-success">Add A New Deck</a>
-        </div>
         <!-- <p>{{ decks[0] }}</p> -->
         <div v-for="deck in decks" class="col-md-3">
           <div class="card">
