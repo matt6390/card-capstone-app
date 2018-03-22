@@ -555,8 +555,8 @@ var router = new VueRouter({
             { path: '/user_cards/:id/edit', component: MyCardEditPage },
             { path: '/user_cards/:id/delete', component: MyCardDestroyPage },
             { path: '/decks', component: MyDecksIndexPage },
-            { path: '/decks/:id', component: MyDeckShowPage },
             { path: '/decks/create', component: MyDeckCreatePage },
+            { path: '/decks/:id', component: MyDeckShowPage },
             { path: "/logout", component: LogoutPage },
             { path: '/login', component: LoginPage },
             { path: '/signup', component: SignupPage }
