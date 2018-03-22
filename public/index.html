@@ -727,8 +727,16 @@
       <!-- <p>{{ cards[0] }}</p> -->
       <div class="row">
         <div v-for="card in cards" class="col-xs-6 col-md-3">
-          <input type="checkbox" id="ex-check-4">{{ card.card.name}}
+          <!-- <input type="checkbox" v-bind:id="'chosenCard' + card.card.id" checked>{{ card.card.name}} -->
+          <div class="card" v-on:click="addToDeck(card)">
+            <div class="card-title">
+              <h4>{{ card.card.name }}</h4>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <button class="btn-success">Cards to Add to Deck</button>
       </div>
     </div>
   </div>

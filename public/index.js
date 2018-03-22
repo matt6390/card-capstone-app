@@ -410,6 +410,7 @@ var DeckCardsChoicePage = {
   template: "#deck-cards-choice-page",
   data: function() {
     return {
+      addCards: [],
       cards: []
     };
   },
@@ -420,7 +421,24 @@ var DeckCardsChoicePage = {
       }.bind(this)
     );
   },
-  methods: {},
+  methods: {
+    addToDeck: function(card) {
+      console.log("working");
+      console.log(card.card.id);
+
+      if (this.addCards.includes(card.card.id)) {
+        var cardId = this.addCards.indexOf(card.card.id);
+        // console.log(cardId);
+        this.addCards.splice(cardId, 1);
+        console.log("Removed Card from array")
+      } else  {
+        this.addCards.push(card.card.id);
+        console.log("Added Card to array")
+      }
+
+      console.log(this.addCards)
+    }
+  },
   computed: {}
 };
 
