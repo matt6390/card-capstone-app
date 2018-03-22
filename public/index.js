@@ -295,7 +295,19 @@ var MyCardDestroyPage = {
       .delete('/user_cards/' + this.$route.params.id)
       .then(
         function(response) {
-          console.log("Card Deleted");
+          console.log("User Card Deleted");
+          axios
+          .delete('/cards/' + this.$route.params.id)
+          .then(
+            function(response) {
+              console.log("Card Deleted");
+            }.bind(this)
+          )
+          .catch(
+            function(errors) {
+              this.errors = error.response.data.errors;
+              router.push("/user_cards/" + this.$route.params.id);
+            }.bind(this))
         }.bind(this)
       )
       .catch(
@@ -346,25 +358,7 @@ var MyDeckShowPage = {
       }.bind(this)
     );
   },
-  methods: {
-    submit: function() {
-      var params = {
-        
-      };
-      axios
-        .post("/prices", params)
-        .then(function(response) {
-          location.reload();
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-            router.push("/user_cards/" + this.$route.params.id);
-          }.bind(this)
-        );
-        // console.log(this.card);
-    }
-  },
+  methods: {},
   computed: {}
 };
 
@@ -411,6 +405,9 @@ var DeckCardsChoicePage = {
   data: function() {
     return {
       addCards: [],
+      dropCards: "",
+      errors: {},
+      deckCards: [],
       cards: []
     };
   },
@@ -434,9 +431,39 @@ var DeckCardsChoicePage = {
       } else  {
         this.addCards.push(card.card.id);
         console.log("Added Card to array")
+        // if (dropCards === "") {
+        //   this.dropCards += card.card.name
+        // } else  {
+        //   this.dropCards += " + " + card.card.name
+        // }
       }
+      // console.log(this.addCards)
+    },
+    cardsToAdd: function() {
+      for (var i = this.addCards.length; i > 0; i--) {
+        console.log(this.addCards[i - 1]);
+        var params = {
+          deck_id: this.$route.params.id,
+          card_id: this.addCards[i - 1]
+        };
+        axios
+          .post("/deck_cards", params)
+          .then(function(response) {
+            this.deckCards = response.data;
+            // console.log(this.deckCards.deck);
+            router.push("/decks/" + this.deckCards.deck);
+          })
+          .catch(
+            function(error) {
+              if(error) {
+                console.log(error);
+                this.errors = error.response.data.errors;
+                router.push("/user_cards/" + this.$route.params.id + "/choice");
+              } 
+            }.bind(this)
+          );
 
-      console.log(this.addCards)
+      }
     }
   },
   computed: {}
@@ -520,10 +547,10 @@ var router = new VueRouter({
   routes: [ { path: "/", component: HomePage },
             { path: '/cards/all', component: CommunityCardsPage },
             { path: '/cards', component: MyCardCreatePage },
-            { path: '/user_cards/choice', component: DeckCardsChoicePage },
             { path: '/cards/:id', component: CommunityShowPage },
             { path: '/user_cards', component: MyCardsIndexPage },
             { path: '/user_cards/:id', component: MyCardShowPage },
+            { path: '/user_cards/:id/choice', component: DeckCardsChoicePage },
             { path: '/user_cards/:id/create', component: MyUserCardCreatePage },
             { path: '/user_cards/:id/edit', component: MyCardEditPage },
             { path: '/user_cards/:id/delete', component: MyCardDestroyPage },

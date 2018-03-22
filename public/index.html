@@ -39,7 +39,7 @@
       <a href="/#/user_cards/:id/delete">Card Destroy Page</a>
       <a href="/#/decks">My Decks Index Page</a>
       <a href="/#/decks/create">My Decks Create Page</a>
-      <a href="/#/user_cards/choice">Deck Cards Choice Page</a>
+      <a href="/#/user_cards/:id/choice">Deck Cards Choice Page</a>
 
       <header class="navbar navbar-sticky">
         <!-- Search-->
@@ -383,7 +383,7 @@
           <div class="product-gallery">
             <span class="product-badge text-danger">{{ card['rarity'] }}</span>
             <h3>{{ card['name'] }} (ID: {{ card['id'] }})</h3>
-            <p>Owner: {{ card['user']['name'] }}</p>
+            <p v-if="card['user']">Owner: {{ card['user']['name'] }}</p>
             <h6 class="card-details "> Card Details:</h6>
               <ul>
                 <li>Description: {{ card['description'] }}</li>
@@ -527,7 +527,7 @@
                 <div class="d-flex w-100 justify-content-between">
                   <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
                 </div>
-                <p>I got my information on this price from "{{ price.source }}"</p>
+                <p>{{ price.source }}</p>
               </a>
             </div>
           </div>
@@ -538,7 +538,7 @@
                 <li class="text-danger" v-for="error in errors">{{ error }}</li>
               </ul>
               <input class="form-control form-control-lg" type="number" id="large-pill-input" placeholder="Enter price here..." v-model="value">
-              <input class="form-control form-control-lg" type="text" id="large-pill-input" placeholder="Enter Source Here..." v-model="source">
+              <input class="form-control form-control-lg" type="text" id="textarea-input" placeholder="Why is your price believable..." v-model="source">
               <a class="btn btn-primary" v-on:click="submit()" v-bind:href="'#/user_cards/' + this.$route.params.id">Add Price</a>
             </div>
           </div>
@@ -677,14 +677,14 @@
       <!-- <p>{{ deck }}</p> -->
       <h2>Deck Worth: ${{ deck.price }}</h2>
       <div class="row">
-        <a href="#/user_cards/choice">
-          <button href="#/user_cards/choice" class="btn btn-success float-right">Add Card to Deck</button>
+        <a v-bind:href="'#/user_cards/'+ this.$route.params.id + '/choice'">
+          <button class="btn btn-success float-right">Add Cards to Deck</button>
         </a>
       </div>
       <div class="row pt-5">
         <div class="row">
-          <div v-for="card in deck.cards" class="col-md-4 col-md-6 col-sm-6">
-            <p>{{ card }}</p>
+          <div v-for="card in deck.cards" class="col-md-4 col-md-6 col-sm-6 col-lg-4 col-sm-3">
+            <!-- <p>{{ card }}</p> -->
               <div class="product-gallery">
                 <div class="product-badge text-danger">{{ card.rarity }}</div>
                 <div class="card-text">
@@ -726,17 +726,37 @@
     <div class="container">
       <!-- <p>{{ cards[0] }}</p> -->
       <div class="row">
-        <div v-for="card in cards" class="col-xs-6 col-md-3">
-          <!-- <input type="checkbox" v-bind:id="'chosenCard' + card.card.id" checked>{{ card.card.name}} -->
-          <div class="card" v-on:click="addToDeck(card)">
-            <div class="card-title">
-              <h4>{{ card.card.name }}</h4>
-            </div>
+        <ul>
+          <li class="text-danger" v-for="error in errors">{{ error }}</li>
+        </ul>
+      </div>
+      <div class="row">
+        <div v-for="card in cards" class="col-xs-6 col-md-3 col-md-4 col-sm-6 col-lg-3">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" v-bind:id="'ex-check-' + card.card.id">
+            <label class="custom-control-label" v-bind:for="'ex-check-' + card.card.id">
+              <div class="card chosenCard" v-on:click="addToDeck(card)">
+                <div class="card-title">
+                  <h4>{{ card.card.name }}</h4>
+                  <p>Estimated: ${{ card.card.average_price }}</p>
+                </div>
+              </div>
+            </label>
           </div>
         </div>
       </div>
       <div class="row">
-        <button class="btn-success">Cards to Add to Deck</button>
+        <div class="card">
+          <div class="card-header" role="tab">
+            <h6><a href="#collapseFour" data-toggle="collapse" data-parent="#accordion2" aria-expanded="false" class="collapsed"><i class="icon-sun"></i>Cards To Add: </a></h6>
+          </div>
+          <div class="collapse" id="collapseFour" role="tabpanel" style="">
+            <div class="card-body">
+              <p>{{dropCards}}</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-success" v-on:click="cardsToAdd()">Add Cards to Deck</button>
       </div>
     </div>
   </div>
