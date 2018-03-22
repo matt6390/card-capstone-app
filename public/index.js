@@ -107,10 +107,17 @@ var MyCardShowPage = {
     return {
       card: [],
       price: [],
+      corsUrl: "https://cors-anywhere.herokuapp.com/",
+      printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
+      pictureUrl: "http://yugiohprices.com/api/card_image/",
+      imgUrl: "http://yugiohprices.com/api/card_image/",
+      searchPrice: [],
       errors: {},
       value: "",
       source: "",
       cardId: this.$route.params.id,
+      searchCardName: "",
+      searchCardPrintTag: "",
       message: "Page is being displayed"
     };
   },
@@ -118,12 +125,18 @@ var MyCardShowPage = {
     axios.get("/user_cards/" + this.$route.params.id).then(
       function(response) {
         this.card = response.data;
+        this.searchCardName = this.card.card.name;
+        // console.log("B");
+        // console.log(this.corsUrl + this.pictureUrl + this.searchCardName);
+        // console.log("A");
+        // axios.get(this.corsUrl + this.pictureUrl + this.searchCardName).then(
+        //   function(response){
+        //     console.log(response);
+        //   }.bind(this));
       }.bind(this)
     );
-    // axios.get("http://yugiohprices.com/api/card_image/blue-eyes white dragon").then(
-    //   function(response){
-    //     this.image = response;
-    //   }.bind(this));
+
+
   },
   methods: {
     submit: function() {
@@ -144,6 +157,22 @@ var MyCardShowPage = {
           }.bind(this)
         );
         // console.log(this.card);
+    },
+    getMarketPrices: function() {
+      // console.log(this.card.card.name);
+      // console.log(this.card.card.user_card.print_tag);
+
+      this.searchCardPrintTag = this.card.card.user_card.print_tag;
+
+      // console.log(this.searchCardName)
+      // console.log("http://yugiohprices.com/api/price_for_print_tag/" + this.searchCardPrintTag)
+
+      axios
+      .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
+      .then(function(response) {
+        this.searchPrice = response.data.data.price_data.price_data.data.prices;
+        console.log(this.searchPrice);
+      }.bind(this))
     }
   },
   computed: {}

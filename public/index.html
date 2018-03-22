@@ -20,6 +20,7 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="index.js" defer></script>
   </head>
   <!-- Body-->
@@ -492,9 +493,9 @@
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/edit'" class="btn btn-success">Edit Card</a>
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/delete'" class="btn btn-danger">Delete Card</a>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="product-gallery">
-              <!-- <img v-bind:src="image"> -->
+              <img class="product-thumb" v-bind:src="imgUrl + searchCardName" alt="">
               <span class="product-badge text-danger">{{ card['card']['rarity'] }}</span>
             </div>
           </div>
@@ -522,15 +523,96 @@
         <!-- <p>{{ card.card.prices }}</p> -->
         <div class="row">
           <div class="col-md-8">
-            <div v-for="price in card.card.prices" class="list-group">
-              <a class="list-group-item">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a href="#userPrices" class="nav-link active show" data-toggle="tab" role="tab" aria-selected="true">User Generated Prices</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#marketPrices" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Current Market Prices</a>
+              </li>
+              <li class="nav-item">
+                <a href="#priceFlux" class="nav-link" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Price Fluctuation</a>
+              </li>
+            </ul>
+            <!-- Tab Contents -->
+            <div class="tab-content">
+              <div class="tab-pane fade active show" id="userPrices" role="tabpanel">
+                <div v-for="price in card.card.prices" class="list-group">
+                  <a class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
+                    </div>
+                    <p>{{ price.source }}</p>
+                  </a>
                 </div>
-                <p>{{ price.source }}</p>
-              </a>
+              </div>
+              <div class="tab-pane fade" id="marketPrices" role="tabpanel">
+                <div class="table-responsive">
+                  <table class="table table-inverse table-striped">
+                   <thead>
+                     <tr>
+                       <th>Current Market Price</th>
+                       <th>Highest Ever Price</th>
+                       <th>Lowest Ever Price</th>
+                     </tr>
+                     <tr>
+                       <th>${{ searchPrice.average }}</th>
+                       <th>${{ searchPrice.high }}</th>
+                       <th>${{ searchPrice.low }}</th>
+                     </tr>
+                   </thead>
+                  </table>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="priceFlux" role="tabpanel">
+                <div class="table-responsive">
+                  <table class="table table-inverse table-striped">
+                   <thead>
+                     <tr>
+                       <th>(#) Days Ago:</th>
+                       <th>Percentage Shifted</th>
+                       <th>Price At That Time</th>
+                     </tr>
+                     <tr>
+                       <th>1</th>
+                       <th>{{ searchPrice.shift }}</th>
+                     </tr>
+                     <tr>
+                       <th>3</th>
+                       <th>{{ searchPrice.shift_3 }}</th>
+                     </tr>
+                     <tr>
+                       <th>7</th>
+                       <th>{{ searchPrice.shift_7 }}</th>
+                     </tr>
+                     <tr>
+                       <th>21</th>
+                       <th>{{ searchPrice.shift_21 }}</th>
+                     </tr>
+                     <tr>
+                       <th>30</th>
+                       <th>{{ searchPrice.shift_30 }}</th>
+                     </tr>
+                     <tr>
+                       <th>90</th>
+                       <th>{{ searchPrice.shift_90 }}</th>
+                     </tr>
+                     <tr>
+                       <th>180</th>
+                       <th>{{ searchPrice.shift_180 }}</th>
+                     </tr>
+                     <tr>
+                       <th>365</th>
+                       <th>{{ searchPrice.shift_365 }}</th>
+                     </tr>
+                   </thead>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
+          <!-- Enter Price -->
           <div class="col-md-4">
             <div class="card">
               <h5>Enter a new Price:</h5>
