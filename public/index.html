@@ -495,7 +495,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="product-gallery">
-              <img class="product-thumb" v-bind:src="imgUrl + searchCardName" alt="">
+              <img class="product-thumbnail" v-bind:src="imgUrl + searchCardName">
               <span class="product-badge text-danger">{{ card['card']['rarity'] }}</span>
             </div>
           </div>
@@ -541,9 +541,11 @@
                 <div v-for="price in card.card.prices" class="list-group">
                   <a class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
-                      <h5>${{ price.value }}0</h5><small class="opacity-60">{{ price.created_at }}</small>
+                      <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80">By: {{ price.condition }}</small>
                     </div>
-                    <p>{{ price.source }}</p>
+                    <div class="d-flex w-100 justify-content-between">
+                      <p>{{ price.source }}</p><small class="opacity-60">On: {{ price.created_at }}</small>
+                    </div>
                   </a>
                 </div>
               </div>

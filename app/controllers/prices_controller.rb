@@ -14,7 +14,7 @@ class PricesController < ApplicationController
     @price = Price.new(
                         card_id: params[:card_id],
                         style: params[:style],
-                        condition: params[:condition],
+                        condition: current_user.name,
                         source: params[:source],
                         value: params[:value]
                       )
