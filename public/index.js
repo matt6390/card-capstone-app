@@ -35,6 +35,13 @@ var CommunityShowPage = {
     return {
       card: [],
       prices: [],
+      corsUrl: "https://cors-anywhere.herokuapp.com/",
+      printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
+      pictureUrl: "http://yugiohprices.com/api/card_image/",
+      imgUrl: "http://yugiohprices.com/api/card_image/",
+      searchPrice: [],
+      searchCardName: "",
+      searchCardPrintTag: "",
       errors: {},
       value: "",
       source: "",
@@ -46,7 +53,8 @@ var CommunityShowPage = {
     axios.get("/cards/" + this.$route.params.id).then(
       function(response) {
         this.card = response.data;
-        this.prices = response.data.prices
+        this.prices = response.data.prices;
+        this.searchCardName = this.card.name;
       }.bind(this)
     );
     // axios.get('http://yugiohprices.com/api/card_image/blue-eyes white dragon').then(
@@ -75,9 +83,23 @@ var CommunityShowPage = {
             router.push("/cards/" + this.$route.params.id);
           }.bind(this)
         );
-
-
         // console.log(this.card);
+    },
+    getMarketPrices: function() {
+      // console.log(this.card.name);
+      // console.log(this.card.user_card.print_tag);
+
+      this.searchCardPrintTag = this.card.user_card.print_tag;
+
+      // console.log(this.searchCardName)
+      // console.log("http://yugiohprices.com/api/price_for_print_tag/" + this.searchCardPrintTag)
+
+      axios
+      .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
+      .then(function(response) {
+        this.searchPrice = response.data.data.price_data.price_data.data.prices;
+        // console.log(this.searchPrice);
+      }.bind(this))
     }
   },
   computed: {}
@@ -94,8 +116,13 @@ var MyCardsIndexPage = {
     axios.get("/user_cards").then(
       function(response) {
         this.cards = response.data;
-      }.bind(this)
-    );
+      }.bind(this))
+      .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/login");
+          }.bind(this)
+        );
   },
   methods: {},
   computed: {}
@@ -134,7 +161,13 @@ var MyCardShowPage = {
         //     console.log(response);
         //   }.bind(this));
       }.bind(this)
-    );
+    )
+    .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/login");
+          }.bind(this)
+        );
 
 
   },
@@ -171,7 +204,7 @@ var MyCardShowPage = {
       .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
-        console.log(this.searchPrice);
+        console.log(this.corsUrl + this.printUrl + this.searchCardPrintTag);
       }.bind(this))
     }
   },
@@ -183,10 +216,17 @@ var MyCardCreatePage = {
   data: function() {
     return {
       errors: {},
-      card: {},
+      card: [],
+      searchCard: [],
+      corsUrl: "https://cors-anywhere.herokuapp.com/",
+      printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
+      infoUrl: "http://yugiohprices.com/api/card_data/",
+      searchTag: "",
       name: "",
+      printTag: "",
       description: "",
       element: "",
+      condition: "",
       race: "",
       rarity: ""
     };
@@ -217,8 +257,56 @@ var MyCardCreatePage = {
             } 
           }.bind(this)
         );
+    },
+
+    cardSearch: function() {
+      this.searchTag = this.searchTag.toUpperCase();
+      console.log(this.corsUrl + this.printUrl + this.searchTag);
+      
+      axios
+      .get(this.corsUrl + this.printUrl + this.searchTag)
+      .then(function(response) {
+        this.searchCard = response.data.data;
+        // console.log(this.searchCard);
+        this.name = this.searchCard.name;
+        this.race = this.searchCard.type;
+        this.element = this.searchCard.family;
+        this.rarity = this.searchCard.price_data.rarity;
+        axios
+        .get(this.corsUrl + this.infoUrl + this.name)
+        .then(function(response) {
+          console.log(response.data.data);
+          this.description = response.data.data.text;
+          
+        }.bind(this))
+      }.bind(this))
     }
 
+  },
+  computed: {}
+};
+
+var MyCardCreateSearchPage = {
+  template: "#my-card-create-search-page",
+  data: function() {
+    return {
+      errors: [],
+      corsUrl: "https://cors-anywhere.herokuapp.com/",
+      printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
+      name: "",
+      printTag: "",
+      message: "Welcome to the card collector!"
+    };
+  },
+  created: function() {},
+  methods: {
+    cardSearch: function() {
+      axios
+      .get(this.corsUrl + this.printUrl + this.printTag)
+      .then(function(response) {
+        console.log(response.data.data);
+      }.bind(this))
+    }
   },
   computed: {}
 };
@@ -575,6 +663,7 @@ var LogoutPage = {
 var router = new VueRouter({
   routes: [ { path: "/", component: HomePage },
             { path: '/cards/all', component: CommunityCardsPage },
+            { path: '/cards/search', component: MyCardCreateSearchPage },
             { path: '/cards', component: MyCardCreatePage },
             { path: '/cards/:id', component: CommunityShowPage },
             { path: '/user_cards', component: MyCardsIndexPage },
