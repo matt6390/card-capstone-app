@@ -250,7 +250,7 @@ var MyCardCreatePage = {
           var params1 = {
             card_id: this.card.id,
             condition: this.condition,
-            print_tag: this.printTag
+            print_tag: this.searchTag
           }
           axios
           .post("/user_cards", params1)
