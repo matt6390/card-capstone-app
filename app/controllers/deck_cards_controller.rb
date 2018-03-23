@@ -17,7 +17,7 @@ class DeckCardsController < ApplicationController
   end
 
   def destroy
-    @deck_card = DeckCard.find(params[:id])
+    @deck_card = DeckCard.find_by(deck_id: params[:id])
     @deck_card.delete
     render json: {message: "Card successfully removed from the deck"}
   end

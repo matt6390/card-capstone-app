@@ -204,7 +204,7 @@ var MyCardShowPage = {
       .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
-        console.log(this.corsUrl + this.printUrl + this.searchCardPrintTag);
+        // console.log(this.corsUrl + this.printUrl + this.searchCardPrintTag);
       }.bind(this))
     }
   },
@@ -217,6 +217,7 @@ var MyCardCreatePage = {
     return {
       errors: {},
       card: [],
+      userCard: [],
       searchCard: [],
       corsUrl: "https://cors-anywhere.herokuapp.com/",
       printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
@@ -246,8 +247,24 @@ var MyCardCreatePage = {
         .then(function(response) {
           this.card = response.data;
           // console.log(this.card.id);
-          router.push("/user_cards/" + this.card.id + "/create");
-        })
+          var params1 = {
+            card_id: this.card.id,
+            condition: this.condition,
+            print_tag: this.printTag
+          }
+          axios
+          .post("/user_cards", params1)
+          .then(
+            function(response) {
+              this.userCard = response.data;
+              console.log(this.userCard);
+              router.push("/user_cards")
+          }.bind(this))
+          .catch(function(error) {
+            this.errors = error.response.data.errors;
+            router.push("/cards");
+          }.bind(this))
+        }.bind(this))
         .catch(
           function(error) {
             if(error) {
@@ -258,6 +275,7 @@ var MyCardCreatePage = {
           }.bind(this)
         );
     },
+
 
     cardSearch: function() {
       this.searchTag = this.searchTag.toUpperCase();
@@ -277,7 +295,7 @@ var MyCardCreatePage = {
         .then(function(response) {
           console.log(response.data.data);
           this.description = response.data.data.text;
-          
+
         }.bind(this))
       }.bind(this))
     }
@@ -465,6 +483,8 @@ var MyDeckShowPage = {
   data: function() {
     return {
       deck: [],
+      errors: [],
+      deckId: this.$route.params.id,
       message: "Page is being displayed"
     };
   },
@@ -472,10 +492,35 @@ var MyDeckShowPage = {
     axios.get("/decks/" + this.$route.params.id).then(
       function(response) {
         this.deck = response.data;
+        console.log(this.deck.cards.length)
       }.bind(this)
     );
   },
-  methods: {},
+  methods: {
+    deleteDeck: function() {
+      axios
+      .delete("/decks/" + this.deckId)
+      .then(function(response) {
+        for (var i = this.deck.cards.length; i > 0; i--) {
+          axios
+          .delete("/deck_cards/" + this.deckId)
+          .then(function(response) {
+            console.log("DeckCard Destroyed")
+          }.bind(this))
+          .catch(function(errors) {
+            this.errors = error.response.data.errors;
+            router.push("/decks/" + this.deckId);
+          }.bind(this))
+        };
+        console.log("Deck Destroyed");
+        router.push("#/decks/destroy");
+      }.bind(this))
+      .catch(function(errors) {
+        this.errors = error.response.data.errors;
+        router.push("/decks/" + this.deckId);
+      }.bind(this))
+    }
+  },
   computed: {}
 };
 
@@ -514,6 +559,18 @@ var MyDeckCreatePage = {
     }
 
   },
+  computed: {}
+};
+
+var MyDeckDestroyPage = {
+  template: "#my-deck-destroy-page",
+  data: function() {
+    return {
+      message: "Welcome to deck destroy page!"
+    };
+  },
+  created: function() {},
+  methods: {},
   computed: {}
 };
 
@@ -674,6 +731,7 @@ var router = new VueRouter({
             { path: '/user_cards/:id/delete', component: MyCardDestroyPage },
             { path: '/decks', component: MyDecksIndexPage },
             { path: '/decks/create', component: MyDeckCreatePage },
+            { path: '/decks/destroy', component: MyDeckDestroyPage },
             { path: '/decks/:id', component: MyDeckShowPage },
             { path: "/logout", component: LogoutPage },
             { path: '/login', component: LoginPage },

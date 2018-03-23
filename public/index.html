@@ -735,9 +735,11 @@
       <!-- <p>{{ deck }}</p> -->
       <h2>Deck Worth: ${{ deck.price }}</h2>
       <div class="row">
-        <a v-bind:href="'#/user_cards/'+ this.$route.params.id + '/choice'">
-          <button class="btn btn-success float-right">Add Cards to Deck</button>
-        </a>
+        <a class="btn btn-success" v-bind:href="'#/user_cards/'+ this.$route.params.id + '/choice'">Add Cards to Deck</a>
+        <a href="#/decks/destroy" v-on:click="deleteDeck()" class="btn btn-danger">Delete This Deck</a>
+        <ul>
+          <li class="text-danger" v-for="error in errors">{{ error }}</li>
+        </ul>
       </div>
       <div class="row pt-5">
         <div class="row">
@@ -816,6 +818,15 @@
         </div>
         <button class="btn btn-success" v-on:click="cardsToAdd()">Add Cards to Deck</button>
       </div>
+    </div>
+  </div>
+</template>
+
+<template id="my-deck-destroy-page">
+  <div class="vue-component">
+    <div class="container">
+      <a href="/#/decks" class="btn btn-primary">Return To My Decks</a>
+      <div class="alert alert-danger alert-dismissible fade show text-center margin-bottom-1x"><span class="alert-close" data-dismiss="alert"></span><i class="icon-ban"></i>&nbsp;&nbsp;<strong>Deck Alert:</strong> Your Deck has been deleted. Please return to your decks to continue.</div>
     </div>
   </div>
 </template>

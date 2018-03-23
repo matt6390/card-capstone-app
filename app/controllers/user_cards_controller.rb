@@ -20,10 +20,10 @@ class UserCardsController < ApplicationController
                               style: params[:style],
                               print_tag: params[:print_tag]
                               )
-    p @user_card.user_id
-    p @user_card.card_id
-    p @user_card.condition
-    p @user_card.print_tag
+    # p @user_card.user_id
+    # p @user_card.card_id
+    # p @user_card.condition
+    # p @user_card.print_tag
 
     if @user_card.save
       render 'show.json.jbuilder'
