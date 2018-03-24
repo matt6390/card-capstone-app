@@ -59,19 +59,6 @@
         <nav class="site-menu">
           <ul>
             <li class="has-megamenu active"><a href="index.html"><span>Home</span></a>
-              <ul class="mega-menu">
-                <li><a class="d-block img-thumbnail text-center navi-link" href="index.html"><img alt="Featured Products Slider" src="img/mega-menu-home/01.jpg">
-                    <h6 class="mt-3">Featured Products Slider</h6></a></li>
-                <li><a class="d-block img-thumbnail text-center navi-link" href="home-featured-categories.html"><img alt="Featured Categories" src="img/mega-menu-home/02.jpg">
-                    <h6 class="mt-3">Featured Categories</h6></a></li>
-                <li><a class="d-block img-thumbnail text-center navi-link" href="home-collection-showcase.html"><img alt="Products Collection Showcase" src="img/mega-menu-home/03.jpg">
-                    <h6 class="mt-3">Products Collection Showcase</h6></a></li>
-                <li>
-                  <div class="img-thumbnail text-center"><img alt="More To Come. Stay Tuned!" src="img/mega-menu-home/04.jpg">
-                    <h6 class="mt-3">More To Come. Stay Tuned!</h6>
-                  </div>
-                </li>
-              </ul>
             </li>
             <li><a href="#/cards/all"><span>Community</span></a>
             </li>
@@ -80,7 +67,7 @@
             <li><a href="#/decks"><span>My Decks</span></a>
             </li>
 
-            <li><a href="account-orders.html"><span>My Account</span></a>
+            <li><a href="#/user"><span>My Account</span></a>
               <ul class="sub-menu">
                   <li><a href="#/login">Login</a></li>
                   <li><a href="#/logout">Logout</a></li>
@@ -237,19 +224,15 @@
   <div class="vue-component">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4" v-for="card in cards">
+        <div class="col-md-4 col-sm-6 col-lg-3" v-for="card in cards">
           <div class="product-gallery">
-            <span class="product-badge text-danger">{{ card['rarity'] }}</span>
-            <h3>{{ card['name'] }} (ID: {{ card['id'] }})</h3>
+            <div class="product-badge text-danger">{{ card['rarity'] }}</div>
+            <a v-bind:href="'/#/cards/' + card.id" class="product-thumb">
+              <img  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.name" width="300">
+            </a>
+            <h3>{{ card['name'] }}</h3>
             <p v-if="card['user']">Owner: {{ card['user']['name'] }}</p>
-            <h6 class="card-details "> Card Details:</h6>
-              <ul>
-                <li>Description: {{ card['description'] }}</li>
-                <li>Attribute: {{ card['element'] }}</li>
-                <li>Type:{{ card['race'] }}</li>
-                <li>Average Price (Subjective to change): ${{ card['average_price'] }}</li>
-              </ul>
-              <a v-bind:href='"#/cards/" + card.id' class="btn btn-primary">View Card</a>
+            <a v-bind:href='"#/cards/" + card.id' class="btn btn-primary">View Card</a>
           </div>
         </div>
       </div>
@@ -406,16 +389,19 @@
     <div class="container">
       <a href="/#/cards/" class="btn btn-success">Add New Card</a>
       <div class="row mt-5 pt-5">
-        <div v-for="card in cards" class="col-lg-4">
+        <div v-for="card in cards" class="col-md-4 col-sm-6 col-lg-3">
           <div class="product-gallery">
-            <span class="product-badge text-danger">{{ card['card']['rarity'] }}</span>
+            <div class="product-badge text-danger">{{ card['card']['rarity'] }}</div>
+            <a v-bind:href="'/#/user_cards/' + card.card.id" class="product-thumb">
+              <img  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.card.name" width="300">
+            </a>
             <h3>{{ card['card']['name'] }} (ID: {{ card['card']['id'] }})</h3>
             <h6 class="card-details "> Card Details:</h6>
               <ul>
                 <li>{{ card['card']['description'] }}</li>
                 <li>{{ card['card']['element'] }}</li>
                 <li>{{ card['card']['race'] }}</li>
-                <li>Average Price (Subjective): ${{ card['card']['average_price'] }}</li>
+                <li>Average Price (Subject to change): ${{ card['card']['average_price'] }}</li>
               </ul>
             <a class="btn btn-primary" v-bind:href="'/#/user_cards/' + card.card.id">View Card</a>
           </div>
@@ -741,22 +727,22 @@
           <li class="text-danger" v-for="error in errors">{{ error }}</li>
         </ul>
       </div>
-      <div class="row pt-5">
-        <div class="row">
-          <div v-for="card in deck.cards" class="col-md-4 col-md-6 col-sm-6 col-lg-4 col-sm-3">
-            <!-- <p>{{ card }}</p> -->
-              <div class="product-gallery">
-                <div class="product-badge text-danger">{{ card.rarity }}</div>
-                <div class="card-text">
-                <a v-bind:href="'#/user_cards/' + card.id">
-                  <h3>{{ card.name }}</h3>
-                </a>
-                <p>{{card.element}}</p>
-                <p>{{card.race}}</p>
-              </div>
+      <div class="row">
+        <div v-for="card in deck.cards" class="col-lg-3 col-md-4 col-sm-6">
+
+          <!-- <p>{{ card }}</p> -->
+            <div class="product-gallery">
+              <div class="product-badge text-danger">{{ card.rarity }}</div>
+              <div class="card-text">
+              <a v-bind:href="'#/user_cards/' + card.id">
+                <h3>{{ card.name }}</h3>
+              </a>
+              <p>{{card.element}}</p>
+              <p>{{card.race}}</p>
+              <button v-on:click="deleteCard(card)" class="btn btn-danger">Remove from Deck</button>
             </div>
           </div>
-      </div>
+        </div>
     </div>
   </div>
 </template>
@@ -827,6 +813,23 @@
     <div class="container">
       <a href="/#/decks" class="btn btn-primary">Return To My Decks</a>
       <div class="alert alert-danger alert-dismissible fade show text-center margin-bottom-1x"><span class="alert-close" data-dismiss="alert"></span><i class="icon-ban"></i>&nbsp;&nbsp;<strong>Deck Alert:</strong> Your Deck has been deleted. Please return to your decks to continue.</div>
+    </div>
+  </div>
+</template>
+
+<template id="user-show-page">
+  <div class="vue-component">
+    <div class="container">
+      <aside class="user-info-wrapper">
+        <div class="user-cover" style="background-image: url(img/account/user-cover-img.jpg);">
+        </div>
+        <div class="user-info">
+          <div class="user-avatar"><a class="edit-avatar" href="#"></a><img src="img/account/user-ava.jpg" alt="User"></div>
+          <div class="user-data">
+            <h4>{{ user.name }}</h4><span>Joined: {{ user.created_at }}</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </template>

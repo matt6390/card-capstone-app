@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(current_user.id)  
-    render json: @user.as_json
+    render 'show.json.jbuilder'
   end
 
   def create

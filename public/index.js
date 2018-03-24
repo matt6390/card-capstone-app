@@ -370,7 +370,7 @@ var MyCardEditPage = {
   template: "#my-card-edit-page",
   data: function() {
     return {
-      card: {},
+      card: [],
       name: "",
       description: "",
       element: "",
@@ -492,7 +492,7 @@ var MyDeckShowPage = {
     axios.get("/decks/" + this.$route.params.id).then(
       function(response) {
         this.deck = response.data;
-        console.log(this.deck.cards.length)
+        // console.log(this.deck.cards.length)
       }.bind(this)
     );
   },
@@ -519,6 +519,11 @@ var MyDeckShowPage = {
         this.errors = error.response.data.errors;
         router.push("/decks/" + this.deckId);
       }.bind(this))
+    },
+
+    deleteCard: function(card) {
+      console.log(card)
+      
     }
   },
   computed: {}
@@ -643,6 +648,26 @@ var DeckCardsChoicePage = {
   computed: {}
 };
 
+var UserShowPage = {
+  template: "#user-show-page",
+  data: function() {
+    return {
+      user: [],
+      errors: [],
+      message: "Welcome to user show page!"
+    };
+  },
+  created: function() {
+    axios.get("/users/")
+    .then(function(response) {
+      this.user = response.data;
+      console.log(this.user)
+    }.bind(this))
+  },
+  methods: {},
+  computed: {}
+};
+
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -733,6 +758,7 @@ var router = new VueRouter({
             { path: '/decks/create', component: MyDeckCreatePage },
             { path: '/decks/destroy', component: MyDeckDestroyPage },
             { path: '/decks/:id', component: MyDeckShowPage },
+            { path: '/user', component: UserShowPage },
             { path: "/logout", component: LogoutPage },
             { path: '/login', component: LoginPage },
             { path: '/signup', component: SignupPage }
