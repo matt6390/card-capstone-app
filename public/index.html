@@ -404,7 +404,6 @@
     <div class="container">
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/edit'" class="btn btn-warning">Edit Card</a>
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/delete'" class="btn btn-danger">Delete Card</a>
-      <div class="card">
         <div class="row">
           <div class="col-md-4">
             <div class="product-gallery">
@@ -413,22 +412,25 @@
             </div>
           </div>
             <div class="col-md-6">
+            <div class="card">
               <!-- <h4> {{ card }}</h4> -->
-              <h1>{{ card['card']['name'] }} ({{ card['card']['user_card']['print_tag'] }})</h1>
-              <!-- <p>Posted By: {{ card['card']['user']['name'] }}</p> -->
-              <h6>{{ card['card']['description']}}</h6>
-              <div class="row margin-top-1x">
-                <div class="col-sm-4">
-                  <label for="">Element:</label>
-                  <p>{{ card['card']['element']}}</p>
-                </div>
-                <div class="col-sm-4">
-                  <label for="">Type:</label>
-                  <p>{{ card['card']['race']}}</p>
-                </div>
-                <div class="col-sm-4">
-                  <label for="">Average Price (Subject to change):</label>
-                  <p>${{ card['card']['average_price']}}.00</p>
+              <div class="card">
+                <h1>{{ card['card']['name'] }} ({{ card['card']['user_card']['print_tag'] }})</h1>
+                <!-- <p>Posted By: {{ card['card']['user']['name'] }}</p> -->
+                <h6>{{ card['card']['description']}}</h6>
+                <div class="row margin-top-1x">
+                  <div class="col-sm-4">
+                    <label for="">Element:</label>
+                    <p>{{ card['card']['element']}}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Type:</label>
+                    <p>{{ card['card']['race']}}</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Average Price (Subject to change):</label>
+                    <p>${{ card['card']['average_price']}}.00</p>
+                  </div>
                 </div>
               </div>
             </div>
