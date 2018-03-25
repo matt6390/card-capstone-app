@@ -33,12 +33,13 @@ var CommunityShowPage = {
   template: "#community-show-page",
   data: function() {
     return {
-      card: [],
+      card: {user:{}},
       prices: [],
       corsUrl: "https://cors-anywhere.herokuapp.com/",
       printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
       pictureUrl: "http://yugiohprices.com/api/card_image/",
       imgUrl: "http://yugiohprices.com/api/card_image/",
+      imgCardName: "",
       searchPrice: [],
       searchCardName: "",
       searchCardPrintTag: "",
@@ -54,7 +55,7 @@ var CommunityShowPage = {
       function(response) {
         this.card = response.data;
         this.prices = response.data.prices;
-        this.searchCardName = this.card.name;
+        this.imgCardName = this.imgUrl + this.card.name;
       }.bind(this)
     );
     // axios.get('http://yugiohprices.com/api/card_image/blue-eyes white dragon').then(
@@ -102,14 +103,47 @@ var CommunityShowPage = {
       }.bind(this))
     }
   },
-  computed: {}
+  computed: {
+    shiftCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    threeCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_3;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    sevenCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_7;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    twentyoneCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_21;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    thirtyCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_30;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    ninetyCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_90;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    one8CurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_180;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    yearCurrentPrice: function() {
+     var num = 1 + this.searchPrice.shift_365;
+        return (this.searchPrice.average * num).toFixed(2);
+    }
+  }
 };
 
 var MyCardsIndexPage = {
   template: "#my-cards-index-page",
   data: function() {
     return {
-      cards: []
+      cards: [{card:{}}]
     };
   },
   created: function() {
@@ -134,6 +168,7 @@ var MyCardShowPage = {
     return {
       card: [],
       price: [],
+      computePrices: [],
       corsUrl: "https://cors-anywhere.herokuapp.com/",
       printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
       pictureUrl: "http://yugiohprices.com/api/card_image/",
@@ -152,7 +187,7 @@ var MyCardShowPage = {
     axios.get("/user_cards/" + this.$route.params.id).then(
       function(response) {
         this.card = response.data;
-        this.searchCardName = this.card.card.name;
+        this.searchCardName = 'http://yugiohprices.com/api/card_image/' + this.card.card.name;
         // console.log("B");
         // console.log(this.corsUrl + this.pictureUrl + this.searchCardName);
         // console.log("A");
@@ -204,11 +239,45 @@ var MyCardShowPage = {
       .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
-        // console.log(this.corsUrl + this.printUrl + this.searchCardPrintTag);
+        console.log(this.searchPrice);
       }.bind(this))
-    }
+    },
+    
   },
-  computed: {}
+  computed: {
+    shiftCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    threeCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_3;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    sevenCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_7;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    twentyoneCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_21;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    thirtyCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_30;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    ninetyCurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_90;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    one8CurrentPrice: function() {
+      var num = 1 + this.searchPrice.shift_180;
+        return (this.searchPrice.average * num).toFixed(2);
+    },
+    yearCurrentPrice: function() {
+     var num = 1 + this.searchPrice.shift_365;
+        return (this.searchPrice.average * num).toFixed(2);
+    }
+  }
 };
 
 var MyCardCreatePage = {
@@ -652,7 +721,11 @@ var UserShowPage = {
   template: "#user-show-page",
   data: function() {
     return {
-      user: [],
+      user: {},
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
       errors: [],
       message: "Welcome to user show page!"
     };
@@ -661,10 +734,32 @@ var UserShowPage = {
     axios.get("/users/")
     .then(function(response) {
       this.user = response.data;
-      console.log(this.user)
+      this.name = this.user.name;
+      this.email = this.user.email;
+      console.log(this.user);
     }.bind(this))
+    .catch(function(error) {
+      this.errors = error.response.data.errors;
+      router.push("/login");
+    }.bind(this));
   },
-  methods: {},
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      };
+      axios
+      .patch("/users", params)
+      .then(function(response) {
+        console.log(response.data);
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = error.response.data.errors;
+      }.bind(this));
+    }
+  },
   computed: {}
 };
 
@@ -738,7 +833,7 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
-    router.push("/");
+    router.push("/login");
   }
 };
 

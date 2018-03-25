@@ -10,16 +10,10 @@ class Deck < ApplicationRecord
 
   def price
     total = 0
-    num = 0
     cards.each do |card|
       total += card.average_price
-      num += 1
     end
-    if num > 0
-      return total / num
-    else
-      return 0
-    end
+      return total
   end
 end
 
