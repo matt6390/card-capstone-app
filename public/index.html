@@ -208,6 +208,7 @@
 <template id="community-cards-page">
   <div class="vue-component">
     <div class="container">
+      <h2>Community Cards</h2>
       <div class="row">
         <div class="col-md-4 col-sm-6 col-lg-3" v-for="card in cards">
           <div class="product-card bg-faded">
@@ -216,6 +217,7 @@
               <img  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.name" width="300">
             </a>
             <h3>{{ card['name'] }}: ${{ card.average_price}}</h3>
+            <h5 class="text-center">({{ card.user_card.print_tag }})</h5>
             <p v-if="card['user']" >Owner: {{ card['user']['name'] }}</p>
           </div>
         </div>
@@ -238,7 +240,7 @@
         </div>
         <div class="col-md-6">
           <div class="card">
-            <h1>{{ card['name'] }}</h1>
+            <h1>{{ card['name'] }}: ({{ card.user_card.print_tag }})</h1>
             <p>Posted By: {{ card['user']['name'] }}</p>
             <h6>{{ card['description']}}</h6>
             <div class="row margin-top-1x">
@@ -381,8 +383,9 @@
 <template id="my-cards-index-page">
   <div class="vue-component">
     <div class="container">
+      <h2>My Cards</h2>
       <a href="/#/cards/" class="btn btn-success">Add New Card</a>
-      <div class="row mt-5 pt-5">
+      <div class="row mt-30">
         <div v-for="card in cards" class="col-md-4 col-sm-6 col-lg-3">
           <div class="product-card bg-faded">
             <div class="product-badge text-white">{{ card['card']['rarity'] }}</div>
@@ -415,7 +418,7 @@
             <div class="card">
               <!-- <h4> {{ card }}</h4> -->
               <div class="card">
-                <h1>{{ card['card']['name'] }} ({{ card['card']['user_card']['print_tag'] }})</h1>
+                <h1>{{ card['card']['name'] }}: ({{ card['card']['user_card']['print_tag'] }})</h1>
                 <!-- <p>Posted By: {{ card['card']['user']['name'] }}</p> -->
                 <h6>{{ card['card']['description']}}</h6>
                 <div class="row margin-top-1x">
@@ -599,12 +602,8 @@
         <input type="text" class="form-control" v-model="rarity" placeholder="Rarity">
       </div>
       <div class="form-group">
-        <label>Condition: MUST BE FILLED IN BY THE USER</label>
+        <label>Condition: <span class="text-danger">MUST BE FILLED IN BY THE USER</span></label>
         <input type="text" class="form-control" v-model="condition" placeholder="Condition">
-      </div>
-      <div class="form-group">
-        <label>Print Tag: </label>
-        <input type="text" class="form-control" v-model="searchTag" placeholder="Print Tag">
       </div>
        <button class="btn btn-success" v-on:click="submit()">Finish Creating Card</button>
        <a href="/">Home</a>
@@ -697,6 +696,7 @@
 <template id="my-decks-index-page">
   <div class="vue-componenet">
     <div class="container">
+      <h2>My Decks</h2>
       <div class="row">
           <a href="/#/decks/create" class="btn btn-success">Add A New Deck</a>
         <!-- <p>{{ decks[0] }}</p> -->
@@ -774,6 +774,7 @@
     <div class="container">
       <!-- <p>{{ cards[0] }}</p> -->
       <div class="row">
+        <h2>Choose Cards</h2>
         <ul>
           <li class="text-danger" v-for="error in errors">{{ error }}</li>
         </ul>
@@ -918,7 +919,3 @@
 
   </div>
 </template>
-
-
-
-
