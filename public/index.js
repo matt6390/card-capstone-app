@@ -22,6 +22,7 @@ var CommunityCardsPage = {
     axios.get("/cards").then(
       function(response) {
         this.cards = response.data;
+        this.cards = this.cards.reverse();
       }.bind(this)
     );
   },
