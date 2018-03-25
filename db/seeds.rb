@@ -38,9 +38,7 @@ Deck.create!([
   {name: "My First Deck", info: "Need to add some cards to this", user_id: 1}
 ])
 DeckCard.create!([
-  {deck_id: 1, card_id: 78},
   {deck_id: 1, card_id: 23},
-  {deck_id: 1, card_id: 82},
   {deck_id: 1, card_id: 24},
   {deck_id: 14, card_id: 79},
   {deck_id: 14, card_id: 29},
