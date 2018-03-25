@@ -404,12 +404,12 @@
               <img  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.card.name" width="300">
             </a>
             <h3>{{ card['card']['name'] }}</h3>
-            <h6 class="card-details "> Card Details:</h6>
+            <h6 class="card-details text-center"> Card Details:</h6>
             <ul>
-              <li>{{ card['card']['description'] }}</li>
-              <li>{{ card['card']['element'] }}</li>
-              <li>{{ card['card']['race'] }}</li>
-              <li>Average Price (Subject to change): ${{ card['card']['average_price'] }}</li>
+              <!-- <li class="text-black card-text-list">{{ card['card']['description'] }}</li> -->
+              <li class="text-black card-text-list">{{ card['card']['element'] }}</li>
+              <li class="text-black card-text-list">{{ card['card']['race'] }}</li>
+              <li class="text-black card-text-list">Community Generated Average: ${{ card['card']['average_price'] }}</li>
             </ul>
           </div>
         </div>
@@ -424,6 +424,7 @@
     <div class="container">
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/edit'" class="btn btn-warning">Edit Card</a>
       <a v-bind:href="'/#/user_cards/' + card['card']['id'] + '/delete'" class="btn btn-danger">Delete Card</a>
+      <div class="card">
         <div class="row">
           <div class="col-md-4">
             <div class="product-gallery">
@@ -452,107 +453,111 @@
               </div>
             </div>
         </div>
+        
+      </div>
         <!-- <p>{{ card.card.prices }}</p> -->
         <div class="row">
           <div class="col-md-8">
-            <!-- Tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <a href="#userPrices" class="nav-link active show" data-toggle="tab" role="tab" aria-selected="true">User Generated Prices</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#marketPrices" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Current Market Prices</a>
-              </li>
-              <li class="nav-item">
-                <a href="#priceFlux" class="nav-link" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Price Fluctuation</a>
-              </li>
-            </ul>
-            <!-- Tab Contents -->
-            <div class="tab-content">
-              <div class="tab-pane fade active show" id="userPrices" role="tabpanel">
-                <div v-for="price in card.card.prices" class="list-group">
-                  <a class="list-group-item">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80">By: {{ price.condition }}</small>
-                    </div>
-                    <div class="d-flex w-100 justify-content-between">
-                      <p>{{ price.source }}</p><small class="opacity-60">On: {{ price.created_at }}</small>
-                    </div>
-                  </a>
+            <div class="card bg-secondary">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a href="#userPrices" class="nav-link active show" data-toggle="tab" role="tab" aria-selected="true">User Generated Prices</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#marketPrices" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Current Market Prices</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#priceFlux" class="nav-link" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Price Fluctuation</a>
+                </li>
+              </ul>
+              <!-- Tab Contents -->
+              <div class="tab-content">
+                <div class="tab-pane fade active show" id="userPrices" role="tabpanel">
+                  <div v-for="price in card.card.prices" class="list-group">
+                    <a class="list-group-item">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80">By: {{ price.condition }}</small>
+                      </div>
+                      <div class="d-flex w-100 justify-content-between">
+                        <p>{{ price.source }}</p><small class="opacity-60">On: {{ price.created_at }}</small>
+                      </div>
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div class="tab-pane fade" id="marketPrices" role="tabpanel">
-                <div class="table-responsive">
-                  <table class="table table-inverse table-striped">
-                   <thead>
-                     <tr>
-                       <th>Current Market Price</th>
-                       <th>Highest Ever Price</th>
-                       <th>Lowest Ever Price</th>
-                     </tr>
-                     <tr>
-                       <th>${{ searchPrice.average }}</th>
-                       <th>${{ searchPrice.high }}</th>
-                       <th>${{ searchPrice.low }}</th>
-                     </tr>
-                   </thead>
-                  </table>
+                <div class="tab-pane fade" id="marketPrices" role="tabpanel">
+                  <div class="table-responsive">
+                    <table class="table table-inverse table-striped">
+                     <thead>
+                       <tr>
+                         <th>Current Market Price</th>
+                         <th>Highest Ever Price</th>
+                         <th>Lowest Ever Price</th>
+                       </tr>
+                       <tr>
+                         <th>${{ searchPrice.average }}</th>
+                         <th>${{ searchPrice.high }}</th>
+                         <th>${{ searchPrice.low }}</th>
+                       </tr>
+                     </thead>
+                    </table>
+                  </div>
                 </div>
-              </div>
-              <div class="tab-pane fade" id="priceFlux" role="tabpanel">
-                <div class="table-responsive">
-                  <table class="table table-inverse table-striped">
-                   <thead>
-                     <tr>
-                       <th>(#) Days Ago:</th>
-                       <th>Percentage Shifted</th>
-                       <th>Price At That Time</th>
-                     </tr>
-                     <tr>
-                       <th>1</th>
-                       <th>{{ searchPrice.shift }}</th>
-                       <th>${{ shiftCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>3</th>
-                       <th>{{ searchPrice.shift_3 }}</th>
-                       <th>${{ threeCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>7</th>
-                       <th>{{ searchPrice.shift_7 }}</th>
-                       <th>${{ sevenCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>21</th>
-                       <th>{{ searchPrice.shift_21 }}</th>
-                       <th>${{ twentyoneCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>30</th>
-                       <th>{{ searchPrice.shift_30 }}</th>
-                       <th>${{ thirtyCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>90</th>
-                       <th>{{ searchPrice.shift_90 }}</th>
-                       <th>${{ ninetyCurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>180</th>
-                       <th>{{ searchPrice.shift_180 }}</th>
-                       <th>${{ one8CurrentPrice }}</th>
-                     </tr>
-                     <tr>
-                       <th>365</th>
-                       <th>{{ searchPrice.shift_365 }}</th>
-                       <th>${{ yearCurrentPrice }}</th>
-                     </tr>
-                   </thead>
-                  </table>
+                <div class="tab-pane fade" id="priceFlux" role="tabpanel">
+                  <div class="table-responsive">
+                    <table class="table table-inverse table-striped">
+                     <thead>
+                       <tr>
+                         <th>(#) Days Ago:</th>
+                         <th>Percentage Shifted</th>
+                         <th>Price At That Time</th>
+                       </tr>
+                       <tr>
+                         <th>1</th>
+                         <th>{{ searchPrice.shift }}</th>
+                         <th>${{ shiftCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>3</th>
+                         <th>{{ searchPrice.shift_3 }}</th>
+                         <th>${{ threeCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>7</th>
+                         <th>{{ searchPrice.shift_7 }}</th>
+                         <th>${{ sevenCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>21</th>
+                         <th>{{ searchPrice.shift_21 }}</th>
+                         <th>${{ twentyoneCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>30</th>
+                         <th>{{ searchPrice.shift_30 }}</th>
+                         <th>${{ thirtyCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>90</th>
+                         <th>{{ searchPrice.shift_90 }}</th>
+                         <th>${{ ninetyCurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>180</th>
+                         <th>{{ searchPrice.shift_180 }}</th>
+                         <th>${{ one8CurrentPrice }}</th>
+                       </tr>
+                       <tr>
+                         <th>365</th>
+                         <th>{{ searchPrice.shift_365 }}</th>
+                         <th>${{ yearCurrentPrice }}</th>
+                       </tr>
+                     </thead>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- Tabs -->
           </div>
           <!-- Enter Price -->
           <div class="col-md-4">

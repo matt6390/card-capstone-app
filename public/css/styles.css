@@ -368,6 +368,7 @@ html * {
 
 body {
   background-position: center;
+  background-image: url('vaio_hard_edge.png');
   background-color: #ffffff;
   background-repeat: no-repeat;
   background-size: cover;
