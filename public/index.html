@@ -239,7 +239,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card">
+          <div class="card mt-80 bg-faded">
             <h1>{{ card['name'] }}: ({{ card.user_card.print_tag }})</h1>
             <p>Posted By: {{ card['user']['name'] }}</p>
             <h6>{{ card['description']}}</h6>
@@ -383,7 +383,7 @@
 <template id="my-cards-index-page">
   <div class="vue-component">
     <div class="container">
-      <h2>My Cards</h2>
+      <h2>{{cards[0].card.user.name}}'s Cards</h2>
       <a href="/#/cards/" class="btn btn-success">Add New Card</a>
       <div class="row mt-30">
         <div v-for="card in cards" class="col-md-4 col-sm-6 col-lg-3">
@@ -415,9 +415,9 @@
             </div>
           </div>
             <div class="col-md-6">
-            <div class="card">
+            <div class="card mt-80">
               <!-- <h4> {{ card }}</h4> -->
-              <div class="card">
+              <div class="card bg-faded">
                 <h1>{{ card['card']['name'] }}: ({{ card['card']['user_card']['print_tag'] }})</h1>
                 <!-- <p>Posted By: {{ card['card']['user']['name'] }}</p> -->
                 <h6>{{ card['card']['description']}}</h6>

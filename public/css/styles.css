@@ -1329,6 +1329,14 @@ figure figcaption {
   margin-top: 30px !important;
 }
 
+.mt-50 {
+  margin-top: 50px !important;
+}
+
+.mt-80 {
+  margin-top: 80px !important;
+}
+
 .margin-top-none {
   margin-top: 0 !important;
 }

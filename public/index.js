@@ -240,7 +240,7 @@ var MyCardShowPage = {
       .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
-        console.log(this.searchPrice);
+        // console.log(this.searchPrice);
       }.bind(this))
     },
     
@@ -327,7 +327,7 @@ var MyCardCreatePage = {
           .then(
             function(response) {
               this.userCard = response.data;
-              console.log(this.userCard);
+              // console.log(this.userCard);
               router.push("/user_cards")
           }.bind(this))
           .catch(function(error) {
@@ -349,7 +349,7 @@ var MyCardCreatePage = {
 
     cardSearch: function() {
       this.searchTag = this.searchTag.toUpperCase();
-      console.log(this.corsUrl + this.printUrl + this.searchTag);
+      // console.log(this.corsUrl + this.printUrl + this.searchTag);
       
       axios
       .get(this.corsUrl + this.printUrl + this.searchTag)
@@ -363,7 +363,7 @@ var MyCardCreatePage = {
         axios
         .get(this.corsUrl + this.infoUrl + this.name)
         .then(function(response) {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           this.description = response.data.data.text;
 
         }.bind(this))
@@ -392,7 +392,7 @@ var MyCardCreateSearchPage = {
       axios
       .get(this.corsUrl + this.printUrl + this.printTag)
       .then(function(response) {
-        console.log(response.data.data);
+        // console.log(response.data.data);
       }.bind(this))
     }
   },
@@ -500,12 +500,12 @@ var MyCardDestroyPage = {
       .delete('/user_cards/' + this.$route.params.id)
       .then(
         function(response) {
-          console.log("User Card Deleted");
+          // console.log("User Card Deleted");
           axios
           .delete('/cards/' + this.$route.params.id)
           .then(
             function(response) {
-              console.log("Card Deleted");
+              // console.log("Card Deleted");
             }.bind(this)
           )
           .catch(
@@ -575,14 +575,14 @@ var MyDeckShowPage = {
           axios
           .delete("/deck_cards/" + this.deckId)
           .then(function(response) {
-            console.log("DeckCard Destroyed")
+            // console.log("DeckCard Destroyed")
           }.bind(this))
           .catch(function(errors) {
             this.errors = error.response.data.errors;
             router.push("/decks/" + this.deckId);
           }.bind(this))
         };
-        console.log("Deck Destroyed");
+        // console.log("Deck Destroyed");
         router.push("#/decks/destroy");
       }.bind(this))
       .catch(function(errors) {
@@ -592,7 +592,7 @@ var MyDeckShowPage = {
     },
 
     deleteCard: function(card) {
-      console.log(card)
+      // console.log(card)
       
     }
   },
@@ -669,17 +669,17 @@ var DeckCardsChoicePage = {
   },
   methods: {
     addToDeck: function(card) {
-      console.log("working");
-      console.log(card.card.id);
+      // console.log("working");
+      // console.log(card.card.id);
 
       if (this.addCards.includes(card.card.id)) {
         var cardId = this.addCards.indexOf(card.card.id);
         // console.log(cardId);
         this.addCards.splice(cardId, 1);
-        console.log("Removed Card from array")
+        // console.log("Removed Card from array");
       } else  {
         this.addCards.push(card.card.id);
-        console.log("Added Card to array")
+        // console.log("Added Card to array");
         // if (dropCards === "") {
         //   this.dropCards += card.card.name
         // } else  {
@@ -690,7 +690,7 @@ var DeckCardsChoicePage = {
     },
     cardsToAdd: function() {
       for (var i = this.addCards.length; i > 0; i--) {
-        console.log(this.addCards[i - 1]);
+        // console.log(this.addCards[i - 1]);
         var params = {
           deck_id: this.$route.params.id,
           card_id: this.addCards[i - 1]
@@ -737,7 +737,7 @@ var UserShowPage = {
       this.user = response.data;
       this.name = this.user.name;
       this.email = this.user.email;
-      console.log(this.user);
+      // console.log(this.user);
     }.bind(this))
     .catch(function(error) {
       this.errors = error.response.data.errors;
@@ -754,7 +754,7 @@ var UserShowPage = {
       axios
       .patch("/users", params)
       .then(function(response) {
-        console.log(response.data);
+        // console.log(response.data);
       }.bind(this))
       .catch(function(error) {
         this.errors = error.response.data.errors;
