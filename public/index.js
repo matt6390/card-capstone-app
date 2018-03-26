@@ -34,7 +34,7 @@ var CommunityShowPage = {
   template: "#community-show-page",
   data: function() {
     return {
-      card: {user:{}},
+      card: {user:{}, user_card:{print_tag:{}}},
       prices: [],
       corsUrl: "https://cors-anywhere.herokuapp.com/",
       printUrl: "http://yugiohprices.com/api/price_for_print_tag/",
