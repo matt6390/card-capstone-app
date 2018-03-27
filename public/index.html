@@ -720,7 +720,7 @@
   <div class="vue-component">
     <div class="container">
       <!-- <p>{{ deck }}</p> -->
-      <h2>Deck Worth: <span class="outline-text">${{ deck.price }}</span></h2>
+      <h2 class="outline-text">Deck Worth: <span>${{ deck.price }}</span></h2>
       <div class="row">
         <a class="btn btn-success" v-bind:href="'#/user_cards/'+ this.$route.params.id + '/choice'">Add Cards to Deck</a>
         <a href="#/decks/destroy" v-on:click="deleteDeck()" class="btn btn-danger">Delete This Deck</a>
@@ -732,17 +732,17 @@
         <div v-for="card in deck.cards" class="col-lg-3 col-md-4 col-sm-6">
 
           <!-- <p>{{ card }}</p> -->
+          <a v-bind:href="'#/user_cards/' + card.id">
             <div class="product-gallery">
               <div class="product-badge text-danger">{{ card.rarity }}</div>
+              <img v-bind:src="'http://yugiohprices.com/api/card_image/' + card.name" alt="">
+          </a>
               <div class="card-text">
-              <a v-bind:href="'#/user_cards/' + card.id">
                 <h3>{{ card.name }}</h3>
-              </a>
-              <p>{{card.element}}</p>
-              <p>{{card.race}}</p>
-              <button v-on:click="deleteCard(card)" class="btn btn-danger">Remove from Deck</button>
+                <p>{{card.element}}</p>
+                <p>{{card.race}}</p>
+              </div>
             </div>
-          </div>
         </div>
     </div>
   </div>
