@@ -23,13 +23,10 @@ var HomePage = {
         );
       }.bind(this))
       .catch(
-              function(error) {
-                this.errors = error.response.data.errors;
-                router.push("/login");
-              }.bind(this));
-
-
-    
+        function(error) {
+          this.errors = error.response.data.errors;
+          router.push("/login");
+        }.bind(this));    
   },
   methods: {},
   computed: {}
