@@ -168,6 +168,7 @@ var MyCardsIndexPage = {
         this.user = response.data;
         axios.get("/user_cards").then(
           function(response) {
+            // console.log(response.data);
             this.cards = response.data;
           }.bind(this))
           .catch(
