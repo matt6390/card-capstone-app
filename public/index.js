@@ -21,7 +21,12 @@ var HomePage = {
             );
           }.bind(this)
         );
-      }.bind(this));
+      }.bind(this))
+      .catch(
+              function(error) {
+                this.errors = error.response.data.errors;
+                router.push("/login");
+              }.bind(this));
 
 
     
