@@ -9,17 +9,27 @@ var HomePage = {
     };
   },
   created: function() {
-    axios.get("/cards").then(
+    axios.get("/user").then(
       function(response) {
-        this.comCards = response.data;
-        axios.get("/user_cards").then(
+        axios.get("/cards").then(
           function(response) {
-            this.myCards = response.data;
-            
+            this.comCards = response.data;
+            axios.get("/user_cards").then(
+              function(response) {
+                this.myCards = response.data;
+                
+              }.bind(this)
+            );
           }.bind(this)
-        );
-      }.bind(this)
-    );
+        )
+      }.bind(this))
+      .catch(function(error) {
+          this.errors = error.response.data.errors;
+          router.push("/login/");
+        }.bind(this));
+
+
+    ;
   },
   methods: {},
   computed: {}
@@ -594,7 +604,7 @@ var MyDecksIndexPage = {
     ).catch(
         function(errors) {
           this.errors = error.response.data.errors;
-          router.push("/dekcs/" + this.$route.params.id);
+          router.push("/decks/" + this.$route.params.id);
         }.bind(this));
   },
   methods: {},
