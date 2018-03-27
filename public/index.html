@@ -208,7 +208,7 @@
 <template id="community-cards-page">
   <div class="vue-component">
     <div class="container">
-      <h2>Community Cards</h2>
+      <h2 class="outline-text">Community Cards</h2>
       <div class="row">
         <div class="col-md-4 col-sm-6 col-lg-3" v-for="card in cards">
           <div class="product-card bg-faded card-listing">
@@ -216,11 +216,9 @@
             <a v-bind:href="'/#/cards/' + card.id" class="product-thumb">
               <img class=""  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.name" width="300">
             </a>
-            <div class="card-footer">
-              <h3>{{ card['name'] }}: ${{ card.average_price}}</h3>
-              <h5 class="text-center">({{ card.user_card.print_tag }})</h5>
-              <p v-if="card['user']" >Owner: {{ card['user']['name'] }}</p>
-            </div>
+            <h3>{{ card['name'] }}: ${{ card.average_price}}</h3>
+            <h5 class="text-center">({{ card.user_card.print_tag }})</h5>
+            <p v-if="card['user']" >Owner: {{ card['user']['name'] }}</p>
           </div>
         </div>
       </div>
@@ -243,7 +241,7 @@
         <div class="col-md-6">
           <div class="card mt-80 bg-faded">
             <h1>{{ card['name'] }}: ({{ card.user_card.print_tag }})</h1>
-            <p>Posted By: {{ card['user']['name'] }}</p>
+            <p class="user-name-text">Posted By: {{ card['user']['name'] }}</p>
             <h6>{{ card['description']}}</h6>
             <div class="row margin-top-1x">
               <div class="col-sm-4">
@@ -268,7 +266,7 @@
           <div class="card bg-secondary">
             <ul class="nav-tabs nav" role="tablist">
               <li class="nav-item">
-                  <a href="#userPrices" class="nav-link active show" data-toggle="tab" role="tab" v-on:click="changeTabSize()" aria-selected="true">User Generated Prices</a>
+                  <a href="#userPrices" class="nav-link active show" data-toggle="tab" role="tab" v-on:click="changeTableSize()" aria-selected="true">User Generated Prices</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#marketPrices" data-toggle="tab" role="tab" aria-selected="false" v-on:click="getMarketPrices()">Current Market Prices</a>
@@ -283,7 +281,7 @@
                 <div v-for="price in card.prices" class="list-group">
                     <a class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80">By: {{ price.condition }}</small>
+                        <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80"><i class="socicon-odnoklassniki"></i>By: {{ price.condition }}</small>
                       </div>
                       <div class="d-flex w-100 justify-content-between">
                         <p>{{ price.source }}</p><small class="opacity-60">On: {{ price.created_at }}</small>
@@ -385,12 +383,12 @@
 <template id="my-cards-index-page">
   <div class="vue-component">
     <div class="container">
-      <h2>{{ user.name }}'s Cards</h2>
+      <h2 class="outline-text">{{ user.name }}'s Cards</h2>
       <a href="/#/cards/" class="btn btn-success">Add New Card</a>
       <div class="row mt-30">
         <div v-for="card in cards" class="col-md-4 col-sm-6 col-lg-3">
-          <div class="product-card bg-faded">
-            <div class="product-badge text-white">{{ card['card']['rarity'] }}</div>
+          <div class="product-card bg-faded card-listing">
+            <div class="product-badge text-success">{{ card['card']['rarity'] }}</div>
             <a v-bind:href="'/#/user_cards/' + card.card.id" class="product-thumb">
               <img  v-bind:src="'http://yugiohprices.com/api/card_image/' + card.card.name" width="300">
             </a>
@@ -462,7 +460,7 @@
                   <div v-for="price in card.card.prices" class="list-group">
                     <a class="list-group-item">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80">By: {{ price.condition }}</small>
+                        <h5>${{ price.value }}0</h5><small v-if="price.condition" class="opacity-80"><i class="socicon-odnoklassniki"></i>By: {{ price.condition }}</small>
                       </div>
                       <div class="d-flex w-100 justify-content-between">
                         <p>{{ price.source }}</p><small class="opacity-60">On: {{ price.created_at }}</small>
@@ -565,7 +563,7 @@
 <template id="my-card-create-page">
   <div class="vue-component">
     <div class="container">
-      <h1>Add A New Card</h1>
+      <h1 class="outline-text">Add A New Card</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -655,7 +653,7 @@
   <div class="vue-component">
 
     <div class="container">
-      <h2>Card to be editted: {{ card['name'] }}</h2>
+      <h2>Card to be editted: <span class="outline-text">{{ card['name'] }}</span></h2>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -697,7 +695,7 @@
 <template id="my-decks-index-page">
   <div class="vue-componenet">
     <div class="container">
-      <h2>My Decks</h2>
+      <h2 class="outline-text">My Decks</h2>
       <div class="row">
           <a href="/#/decks/create" class="btn btn-success">Add A New Deck</a>
         <!-- <p>{{ decks[0] }}</p> -->
@@ -706,7 +704,7 @@
             <a v-bind:href="'#/decks/' + deck.id">
               <img src="../img/logo/logo.png">
             </a>
-            <div class="card-body">
+            <div class="card-body overflowing-text">
               <h3 class="card-title">{{ deck.name }}: ${{ deck.price }}</h3>
               <h6>Cards in deck: {{ deck.cards.length }}</h6>
               <p class="card-text">{{ deck.info }}</p>
@@ -722,7 +720,7 @@
   <div class="vue-component">
     <div class="container">
       <!-- <p>{{ deck }}</p> -->
-      <h2>Deck Worth: ${{ deck.price }}</h2>
+      <h2>Deck Worth: <span class="outline-text">${{ deck.price }}</span></h2>
       <div class="row">
         <a class="btn btn-success" v-bind:href="'#/user_cards/'+ this.$route.params.id + '/choice'">Add Cards to Deck</a>
         <a href="#/decks/destroy" v-on:click="deleteDeck()" class="btn btn-danger">Delete This Deck</a>
@@ -831,7 +829,7 @@
           <div class="user-info">
             <div class="user-avatar"><a class="edit-avatar" href="#"></a><img src="img/account/user-ava.jpg" alt="User"></div>
             <div class="user-data">
-              <h4>{{ user.name }}</h4><span>Joined: {{ user.created_at }}</span>
+              <h4 class="outline-text">{{ user.name }}</h4><span>Joined: {{ user.created_at }}</span>
             </div>
           </div>
         </aside>

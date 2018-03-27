@@ -89,7 +89,7 @@ var CommunityShowPage = {
             router.push("/cards/" + this.$route.params.id);
           }.bind(this)
         );
-        // console.log(this.card);
+      // console.log(this.card);
     },
     getMarketPrices: function() {
       document.getElementById("pricesTab").classList.remove('table-card-limit');
@@ -102,52 +102,54 @@ var CommunityShowPage = {
       // console.log("http://yugiohprices.com/api/price_for_print_tag/" + this.searchCardPrintTag)
 
       axios
-      .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
-      .then(function(response) {
-        this.searchPrice = response.data.data.price_data.price_data.data.prices;
-        // console.log(this.searchPrice);
-      }.bind(this));
+        .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
+        .then(function(response) {
+          this.searchPrice = response.data.data.price_data.price_data.data.prices;
+          // console.log(this.searchPrice);
+        }.bind(this));
     },
 
     changeTableSize: function() {
-      if (this.card.card.prices.length > 3) {
+      if (this.card.prices.length > 3) {
         // console.log("Has 4 or more prices");
         document.getElementById("pricesTab").classList.add('table-card-limit');
+      } else {
+        console.log("Not enough prices");
       }
     },
   },
   computed: {
     shiftCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     threeCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_3;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     sevenCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_7;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     twentyoneCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_21;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     thirtyCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_30;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     ninetyCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_90;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     one8CurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_180;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     yearCurrentPrice: function() {
-     var num = 1 + this.searchPrice.shift_365;
-        return (this.searchPrice.average * num).toFixed(2);
+      var num = 1 + this.searchPrice.shift_365;
+      return (this.searchPrice.average * num).toFixed(2);
     }
   }
 };
@@ -252,7 +254,7 @@ var MyCardShowPage = {
             router.push("/user_cards/" + this.$route.params.id);
           }.bind(this)
         );
-        // console.log(this.card);
+      // console.log(this.card);
     },
     getMarketPrices: function() {
       document.getElementById("pricesTab").classList.remove('table-card-limit');
@@ -265,11 +267,11 @@ var MyCardShowPage = {
       // console.log("http://yugiohprices.com/api/price_for_print_tag/" + this.searchCardPrintTag)
 
       axios
-      .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
-      .then(function(response) {
-        this.searchPrice = response.data.data.price_data.price_data.data.prices;
+        .get(this.corsUrl + this.printUrl + this.searchCardPrintTag)
+        .then(function(response) {
+          this.searchPrice = response.data.data.price_data.price_data.data.prices;
         // console.log(this.searchPrice);
-      }.bind(this));
+        }.bind(this));
     },
 
     changeTableSize: function() {
@@ -283,35 +285,35 @@ var MyCardShowPage = {
   computed: {
     shiftCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     threeCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_3;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     sevenCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_7;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     twentyoneCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_21;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     thirtyCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_30;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     ninetyCurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_90;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     one8CurrentPrice: function() {
       var num = 1 + this.searchPrice.shift_180;
-        return (this.searchPrice.average * num).toFixed(2);
+      return (this.searchPrice.average * num).toFixed(2);
     },
     yearCurrentPrice: function() {
-     var num = 1 + this.searchPrice.shift_365;
-        return (this.searchPrice.average * num).toFixed(2);
+      var num = 1 + this.searchPrice.shift_365;
+      return (this.searchPrice.average * num).toFixed(2);
     }
   }
 };
@@ -356,19 +358,19 @@ var MyCardCreatePage = {
             card_id: this.card.id,
             condition: this.condition,
             print_tag: this.searchTag
-          }
+          };
           axios
-          .post("/user_cards", params1)
-          .then(
-            function(response) {
-              this.userCard = response.data;
-              // console.log(this.userCard);
-              router.push("/user_cards")
-          }.bind(this))
-          .catch(function(error) {
-            this.errors = error.response.data.errors;
-            router.push("/cards");
-          }.bind(this))
+            .post("/user_cards", params1)
+            .then(
+              function(response) {
+                this.userCard = response.data;
+                // console.log(this.userCard);
+                router.push("/user_cards");
+              }.bind(this))
+            .catch(function(error) {
+              this.errors = error.response.data.errors;
+              router.push("/cards");
+            }.bind(this));
         }.bind(this))
         .catch(
           function(error) {
@@ -387,22 +389,22 @@ var MyCardCreatePage = {
       // console.log(this.corsUrl + this.printUrl + this.searchTag);
       
       axios
-      .get(this.corsUrl + this.printUrl + this.searchTag)
-      .then(function(response) {
-        this.searchCard = response.data.data;
-        // console.log(this.searchCard);
-        this.name = this.searchCard.name;
-        this.race = this.searchCard.type;
-        this.element = this.searchCard.family;
-        this.rarity = this.searchCard.price_data.rarity;
-        axios
-        .get(this.corsUrl + this.infoUrl + this.name)
+        .get(this.corsUrl + this.printUrl + this.searchTag)
         .then(function(response) {
-          // console.log(response.data.data);
-          this.description = response.data.data.text;
-
-        }.bind(this))
-      }.bind(this))
+          this.searchCard = response.data.data;
+          // console.log(this.searchCard);
+          this.name = this.searchCard.name;
+          this.race = this.searchCard.type;
+          this.element = this.searchCard.family;
+          this.rarity = this.searchCard.price_data.rarity;
+          axios
+            .get(this.corsUrl + this.infoUrl + this.name)
+            .then(function(response) {
+              // console.log(response.data.data);
+              this.description = response.data.data.text;
+ 
+            }.bind(this));
+        }.bind(this));
     }
 
   },
