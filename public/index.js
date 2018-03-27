@@ -57,6 +57,10 @@ var CommunityShowPage = {
         this.card = response.data;
         this.prices = response.data.prices;
         this.imgCardName = this.imgUrl + this.card.name;
+        if (this.card.prices.length > 3) {
+        // console.log("Has 4 or more prices");
+          document.getElementById("pricesTab").classList.add('table-card-limit');
+        }
       }.bind(this)
     );
     // axios.get('http://yugiohprices.com/api/card_image/blue-eyes white dragon').then(
@@ -88,6 +92,7 @@ var CommunityShowPage = {
         // console.log(this.card);
     },
     getMarketPrices: function() {
+      document.getElementById("pricesTab").classList.remove('table-card-limit');
       // console.log(this.card.name);
       // console.log(this.card.user_card.print_tag);
 
@@ -101,8 +106,15 @@ var CommunityShowPage = {
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
         // console.log(this.searchPrice);
-      }.bind(this))
-    }
+      }.bind(this));
+    },
+
+    changeTableSize: function() {
+      if (this.card.card.prices.length > 3) {
+        // console.log("Has 4 or more prices");
+        document.getElementById("pricesTab").classList.add('table-card-limit');
+      }
+    },
   },
   computed: {
     shiftCurrentPrice: function() {
@@ -144,20 +156,30 @@ var MyCardsIndexPage = {
   template: "#my-cards-index-page",
   data: function() {
     return {
-      cards: [{card:{}}]
+      user: [],
+      cards: [{card:{user_card:{}}}]
     };
   },
   created: function() {
-    axios.get("/user_cards").then(
-      function(response) {
-        this.cards = response.data;
-      }.bind(this))
-      .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-            router.push("/login");
-          }.bind(this)
-        );
+    axios.get("/users")
+      .then(function(response) {
+        this.user = response.data;
+        axios.get("/user_cards").then(
+          function(response) {
+            this.cards = response.data;
+          }.bind(this))
+          .catch(
+            function(error) {
+              this.errors = error.response.data.errors;
+              router.push("/login");
+            }.bind(this)
+          );
+     }.bind(this))
+    .catch(function(error) {
+      this.errors = error.response.data.errors;
+      router.push("/login");
+    }.bind(this));
+
   },
   methods: {},
   computed: {}
@@ -167,7 +189,7 @@ var MyCardShowPage = {
   template: "#my-card-show-page",
   data: function() {
     return {
-      card: [],
+      card: {card:{user_card:{}}},
       price: [],
       computePrices: [],
       corsUrl: "https://cors-anywhere.herokuapp.com/",
@@ -187,8 +209,13 @@ var MyCardShowPage = {
   created: function() {
     axios.get("/user_cards/" + this.$route.params.id).then(
       function(response) {
+        // console.log(response.data);
         this.card = response.data;
         this.searchCardName = 'http://yugiohprices.com/api/card_image/' + this.card.card.name;
+        if (this.card.card.prices.length > 3) {
+        // console.log("Has 4 or more prices");
+          document.getElementById("pricesTab").classList.add('table-card-limit');
+        }
         // console.log("B");
         // console.log(this.corsUrl + this.pictureUrl + this.searchCardName);
         // console.log("A");
@@ -198,17 +225,17 @@ var MyCardShowPage = {
         //   }.bind(this));
       }.bind(this)
     )
-    .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-            router.push("/login");
-          }.bind(this)
-        );
+      .catch(
+        function(error) {
+          this.errors = error.response.data.errors;
+          router.push("/login");
+        }.bind(this)
+      );
 
 
   },
   methods: {
-    submit: function() {
+    submit: function() {      
       var params = {
         card_id: this.cardId,
         value: this.value,
@@ -228,6 +255,7 @@ var MyCardShowPage = {
         // console.log(this.card);
     },
     getMarketPrices: function() {
+      document.getElementById("pricesTab").classList.remove('table-card-limit');
       // console.log(this.card.card.name);
       // console.log(this.card.card.user_card.print_tag);
 
@@ -241,7 +269,14 @@ var MyCardShowPage = {
       .then(function(response) {
         this.searchPrice = response.data.data.price_data.price_data.data.prices;
         // console.log(this.searchPrice);
-      }.bind(this))
+      }.bind(this));
+    },
+
+    changeTableSize: function() {
+      if (this.card.card.prices.length > 3) {
+        // console.log("Has 4 or more prices");
+        document.getElementById("pricesTab").classList.add('table-card-limit');
+      }
     },
     
   },
@@ -569,26 +604,26 @@ var MyDeckShowPage = {
   methods: {
     deleteDeck: function() {
       axios
-      .delete("/decks/" + this.deckId)
-      .then(function(response) {
-        for (var i = this.deck.cards.length; i > 0; i--) {
-          axios
-          .delete("/deck_cards/" + this.deckId)
-          .then(function(response) {
-            // console.log("DeckCard Destroyed")
-          }.bind(this))
-          .catch(function(errors) {
-            this.errors = error.response.data.errors;
-            router.push("/decks/" + this.deckId);
-          }.bind(this))
-        };
-        // console.log("Deck Destroyed");
-        router.push("#/decks/destroy");
-      }.bind(this))
-      .catch(function(errors) {
-        this.errors = error.response.data.errors;
-        router.push("/decks/" + this.deckId);
-      }.bind(this))
+        .delete("/decks/" + this.deckId)
+        .then(function(response) {
+          for (var i = this.deck.cards.length; i > 0; i--) {
+            axios
+              .delete("/deck_cards/" + this.deckId)
+              .then(function(response) {
+                // console.log("DeckCard Destroyed")
+              }.bind(this))
+              .catch(function(errors) {
+                this.errors = error.response.data.errors;
+                router.push("/decks/" + this.deckId);
+              }.bind(this))
+          }
+          // console.log("Deck Destroyed");
+          router.push("#/decks/destroy");
+        }.bind(this))
+        .catch(function(error) {
+          this.errors = error.response.data.errors;
+          router.push("/decks/" + this.deckId);
+        }.bind(this))
     },
 
     deleteCard: function(card) {
