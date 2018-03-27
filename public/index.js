@@ -9,7 +9,7 @@ var HomePage = {
     };
   },
   created: function() {
-    axios.get("/user").then(
+    axios.get("/users").then(
       function(response) {
         axios.get("/cards").then(
           function(response) {
@@ -17,19 +17,14 @@ var HomePage = {
             axios.get("/user_cards").then(
               function(response) {
                 this.myCards = response.data;
-                
               }.bind(this)
             );
           }.bind(this)
-        )
-      }.bind(this))
-      .catch(function(error) {
-          this.errors = error.response.data.errors;
-          router.push("/login/");
-        }.bind(this));
+        );
+      }.bind(this));
 
 
-    ;
+    
   },
   methods: {},
   computed: {}
