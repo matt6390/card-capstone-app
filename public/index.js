@@ -2,10 +2,25 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      message: "Welcome to the card collector!"
+      comCards: [],
+      myCards: [],
+      myDecks:[],
+      message: "Welcome to the Yu-Gi-Stone Card Completist!"
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/cards").then(
+      function(response) {
+        this.comCards = response.data;
+        axios.get("/user_cards").then(
+          function(response) {
+            this.myCards = response.data;
+            
+          }.bind(this)
+        );
+      }.bind(this)
+    );
+  },
   methods: {},
   computed: {}
 };

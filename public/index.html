@@ -187,14 +187,67 @@
 <!-- this is a comment -->
 
 <template id="home-page">
-  <div class="container">
-    <h1>{{ message }}</h1>
-    <a href="/#/login">
-      <h2>Log In</h2>
-    </a>
-    <a href="/#/login">
-      <h2>Signup</h2>
-    </a>
+  <div class="vue-component">
+    <div class="container">
+      <div class="row">
+        <h1 class="outline-text">{{ message }}</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 mb-30">
+          <div class="card bg-faded">
+            <div class="card-img-tiles">
+              <div class="inner">
+                <div class="main-img">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + comCards[0].name">
+                </div>
+                <div class="thumblist">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + comCards[1].name">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + comCards[2].name">
+                </div>
+              </div>
+            </div>
+            <div class="card-body text-center">
+              <a href="#/cards/all" class="btn btn-primary">Community Cards</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 mb-30">
+          <div class="card bg-faded">
+            <div class="card-img-tiles">
+              <div class="inner">
+                <div class="main-img">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + myCards[0].card.name">
+                </div>
+                <div class="thumblist">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + myCards[1].card.name">
+                  <img v-bind:src="'http://yugiohprices.com/api/card_image/' + myCards[2].card.name">
+                </div>
+              </div>
+            </div>
+            <div class="card-body text-center">
+              <a href="#/user_cards" class="btn btn-primary">My Cards</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 mb-30">
+          <div class="card bg-faded">
+            <img src="../img/logo/logo.png">
+            <div class="card-body text-center">
+              <a href="#/decks" class="btn btn-primary">My Decks</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    <!--   <div class="row">
+        <a href="/#/login">
+          <button class="btn btn-secondary">Log In</button>
+        </a>
+        <a href="/#/signup">
+          <button class="btn btn-secondary">Signup</button>
+        </a>
+      </div> -->
+    </div>
   </div>
 </template>
 
