@@ -1,3 +1,13 @@
 body {
   background-image: url('img/grey_wall.png');
 }
+
+.product-gallery {
+  border: none;
+}
+
+.product-badge {
+  color: #43d9a3;
+  background-color: #000;
+  padding: 0px 25px;
+}

@@ -5,7 +5,6 @@
     <title>Card Capstone
     </title>
     <!-- Favicon and Apple Icons-->
-    <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="touch-icon-iphone.png">
@@ -16,6 +15,7 @@
     <link rel="stylesheet" media="screen" href="css/vendor.min.css">
     <!-- Main Template Styles-->
     <link id="mainStyles" rel="stylesheet" media="screen" href="css/styles.min.css">
+    <link rel="stylesheet" href="index.css">
     <!-- Modernizr-->
     <script src="js/modernizr.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -281,7 +281,7 @@
         <div class="col-md-4">
           <div class="product-gallery">
             <img class="product-thumbnail" v-bind:src="imgCardName">
-            <span class="product-badge text-danger"> {{ card['rarity'] }}</span>
+            <span class="product-badge"> {{ card['rarity'] }}</span>
           </div>
         </div>
         <div class="col-md-6">
@@ -456,7 +456,7 @@
           <div class="col-md-4">
             <div class="product-gallery">
               <img class="product-thumbnail" v-bind:src="searchCardName">
-              <span class="product-badge text-danger">{{ card['card']['rarity'] }}</span>
+              <span class="product-badge">{{ card['card']['rarity'] }}</span>
             </div>
           </div>
             <div class="col-md-6">
@@ -647,7 +647,7 @@
         <input type="text" class="form-control" v-model="rarity" placeholder="Rarity">
       </div>
       <div class="form-group">
-        <label class="text-danger">MUST BE FILLED IN BY THE USER</label>
+        <label class="text-white">MUST BE FILLED IN BY THE USER</label>
         <input type="text" class="form-control" v-model="condition" placeholder="Condition">
       </div>
        <button class="btn btn-success" v-on:click="submit()">Finish Creating Card</button>
@@ -780,7 +780,7 @@
           <!-- <p>{{ card }}</p> -->
           <a v-bind:href="'#/user_cards/' + card.id">
             <div class="product-gallery">
-              <div class="product-badge text-danger">{{ card.rarity }}</div>
+              <div class="product-badge">{{ card.rarity }}</div>
               <img v-bind:src="'http://yugiohprices.com/api/card_image/' + card.name" alt="">
           </a>
               <!-- <div class="card-text">
